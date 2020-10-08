@@ -11,7 +11,8 @@
             MM-up
         </div>
         <div class="signup_box">
-            <form id = "log_in" action = "#" method="POST">
+            <form id = "sign_up" action = "{% url 'sign_up' %}" method="POST">
+                {% csrf_token %}
                 <input 
                     id = "user_id_input"
                     name = "userid"
@@ -24,8 +25,15 @@
                     placeholder = "Please enter a password."
                     type="password"
                 />
+                <input
+                id ="user_pw_input"
+                name = "password_check"
+                placeholder = "Please enter a password one more."
+                type="password"
+            />
+
                 <div class="button">
-                    <button type = "submit" id = "sign_up" formaction = "./signup">Sign Up</button>
+                    <button type = "submit" id="sign_up">Sign Up</button>
                 </div>
             </form>
         </div>

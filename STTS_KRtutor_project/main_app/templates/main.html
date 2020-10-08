@@ -65,8 +65,16 @@
         <div class="login_header">
             MM-up
         </div>
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        
         <div class="loginbox">
-            <form id = "log_in" action = "#" method="POST">
+            <form id = "log_in" action = "{% url 'main' %}" method="POST">
+                {% csrf_token %}
                 <input 
                     id = "user_id_input"
                     name = "userid"
@@ -80,8 +88,8 @@
                     type="password"
                 />
                 <div class="button">
-                    <button type = "submit" id = "log_enter" formaction = "./chapter">Log-in</button>
-                    <button type = "submit" id = "sign_up" formaction = "./signup">Sign Up</button>
+                    <button type = "submit" id = "log_enter">Log-in</button>
+                    <button type = "submit" id = "sign_up" formaction="/sign_up">Sign up</button>
                 </div>
             </form>
         </div>
