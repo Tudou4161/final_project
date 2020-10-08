@@ -1,14 +1,17 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <div class="signup_container">
         <div class="signup_header">
-            MM-up
+            Sign Up
         </div>
 
         {% if error %}
@@ -33,14 +36,15 @@
                     type="password"
                 />
                 <input
-                id ="user_pw_input"
-                name = "password_check"
-                placeholder = "Please enter a password one more."
-                type="password"
-            />
+                    id ="user_pw_input"
+                    name = "password_check"
+                    placeholder = "Please enter a password one more."
+                    type="password"
+                />
 
                 <div class="button">
                     <button type = "submit" id="sign_up">Sign Up</button>
+                    <button type = "submit" id = "return_login" formaction=".">return page</button>
                 </div>
             </form>
         </div>
