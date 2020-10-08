@@ -10,6 +10,13 @@
         <div class="signup_header">
             MM-up
         </div>
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        
         <div class="signup_box">
             <form id = "sign_up" action = "{% url 'sign_up' %}" method="POST">
                 {% csrf_token %}

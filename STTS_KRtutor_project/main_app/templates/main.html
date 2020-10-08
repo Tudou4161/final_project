@@ -75,6 +75,7 @@
         <div class="loginbox">
             <form id = "log_in" action = "{% url 'main' %}" method="POST">
                 {% csrf_token %}
+
                 <input 
                     id = "user_id_input"
                     name = "userid"

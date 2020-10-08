@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
 
@@ -37,10 +37,10 @@ def sign_up(request): #회원가입 구현함수
             )
 
             auth.login(request, new_user)
-            return render(request, "chapter.html")
+            return redirect("main")
 
         else:
-            context["error"] = "아이디와 비밀번호를 다시 확인해주세요"
+            context["error"] = "아이디와 비밀번호를 다시 입력해주세요"
     return render(request, "sign_up.html", context)
 
 def chapter(request):
