@@ -40,8 +40,14 @@ def sign_up(request): #회원가입 구현함수
             return redirect("main")
 
         else:
-            context["error"] = "아이디와 비밀번호를 다시 입력해주세요"
+            context["error"] = "아이디와 비밀번호 를 다시 입력해주세요"
     return render(request, "sign_up.html", context)
+
+def logout(request):
+    if request.method == "POST":
+        auth.logout(request)
+    return redirect("main")
+
 
 def chapter(request):
     return render(request, "chapter.html")
