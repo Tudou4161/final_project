@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="signup_container">
+        <div class="signup_header">
+            MM-up
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        
+        <div class="signup_box">
+            <form id = "sign_up" action = "{% url 'sign_up' %}" method="POST">
+                {% csrf_token %}
+                <input 
+                    id = "user_id_input"
+                    name = "userid"
+                    placeholder="Please enter your ID." 
+                    type="text"
+                />
+                <input
+                    id ="user_pw_input"
+                    name = "password"
+                    placeholder = "Please enter a password."
+                    type="password"
+                />
+                <input
+                id ="user_pw_input"
+                name = "password_check"
+                placeholder = "Please enter a password one more."
+                type="password"
+            />
+
+                <div class="button">
+                    <button type = "submit" id="sign_up">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
