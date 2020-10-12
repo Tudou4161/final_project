@@ -39,6 +39,7 @@
                 </form>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     <div class="chapter_container">
         <div class="chapter_header">{{user.get_username}}님 환영합니다!</div>
@@ -53,6 +54,21 @@
                 <div class="box"><a href="">chap_5</a></div>
                 <div class="box"><a href="">chap_6</a></div>
             </div>
+=======
+    {% endif %} -->
+    
+    <div>{{user.get_username}}님 환영합니다!</div>
+    <button type='button' id="modal_btn">로그아웃</button>
+    <div class="black_bg"></div>
+    <div class="modal_wrap">
+        <div class="modal_close"><a href="#">close</a></div>
+        <div>
+            로그아웃하시면, 현재 챕터까지의 교육과정은 저장되지 않습니다. 그래도 로그아웃 하시겠습니까?
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">LOGOUT</button>
+            </form>
+>>>>>>> 2bb333091d92b20601cc40c6c9b0a0a5c1f78458
         </div>
     </div>
 </body>
