@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
+from .models import CheckProcess
 
 # Create your views here.
 def main(request): #로그인 구현 함수
@@ -13,7 +14,7 @@ def main(request): #로그인 구현 함수
                 username=request.POST["userid"],
                 password=request.POST["password"]
             )
-            
+
             if user is not None:
                 auth.login(request, user)
                 return render(request, "chapter.html")
@@ -30,11 +31,24 @@ def sign_up(request): #회원가입 구현함수
     if request.method == "POST":
         if (request.POST["userid"] and request.POST["password"] and
                 request.POST["password"] == request.POST["password_check"]):
-            
+
+            user_id = request.POST["userid"]
+
             new_user = User.objects.create_user(
-                username=request.POST["userid"],
+                username=user_id,
                 password=request.POST["password"]
             )
+
+            new_CheckTable = CheckProcess(
+                user=User.objects.get(username=user_id),
+                chap_1= 1,
+                chap_2= 1,
+                chap_3= 1,
+                chap_4= 1,
+                chap_5= 1,
+                chap_6= 1
+            )
+            new_CheckTable.save()
 
             auth.login(request, new_user)
             return redirect("main")
