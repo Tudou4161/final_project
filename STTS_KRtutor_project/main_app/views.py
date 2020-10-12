@@ -51,3 +51,6 @@ def logout(request):
 
 def chapter(request):
     return render(request, "chapter.html")
+
+def chap1(request):
+    return render(request, "chap1.html")

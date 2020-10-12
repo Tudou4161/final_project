@@ -156,6 +156,9 @@ body{
 
     width: 30%;
     height: 80%;
+
+    border: none;
+    outline: none;
     border-radius: 10px;
     background-color:#ebc7ff;
     
@@ -167,18 +170,27 @@ body{
     background-color: #d994ff;
 }
 
-.box a{
+/* chap_level */
+
+.chap_LV{
     display: flex;
     justify-content: center;
     align-items: center;
 
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
 
-    text-decoration: none;
-    color: black;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background-color:#ebc7ff;
+    
+    margin: 10px;
+    margin-top: 10%;
 }
-
+.chap_LV:hover{
+    background-color: #d994ff;
+}
 
 /* modal css logout */
 .modal_wrap{

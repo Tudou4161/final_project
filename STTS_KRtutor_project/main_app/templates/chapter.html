@@ -43,19 +43,21 @@
     </div>
     <div class="chapter_container">
         <div class="chapter_header">{{user.get_username}}님 환영합니다!</div>
-        <div class="chapterbox">
-            <div class="chap_line">
-                <div class="box"><a href="">chap_1</a></div>
-                <div class="box"><a href="">chap_2</a></div>
-                <div class="box"><a href="">chap_3</a></div>
+        <form action="{% url 'chapter' %}" method="post">
+            {% csrf_token %}
+            <div class="chapterbox">
+                <div class="chap_line">
+                    <button type="submit" class="box" formaction="/chap1">chap_1</button>
+                    <button type="submit" class="box">chap_2</button>
+                    <button type="submit" class="box">chap_3</button>
+                </div>
+                <div class="chap_line">
+                    <button type="submit" class="box">chap_4</button>
+                    <button type="submit" class="box">chap_5</button>
+                    <button type="submit" class="box">chap_6</button>
+                </div>
             </div>
-            <div class="chap_line">
-                <div class="box"><a href="">chap_4</a></div>
-                <div class="box"><a href="">chap_5</a></div>
-                <div class="box"><a href="">chap_6</a></div>
-            </div>
-
-        </div>
+        </form>
     </div>
 </body>
 </html>
