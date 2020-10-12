@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
 from .models import CheckProcess
+from .models import EssentialSentenceDB, ConversationPracticeQuestionDB, ConversationPracticeAnswerDB
+import csv
 
 # Create your views here.
 def main(request): #로그인 구현 함수
@@ -55,7 +57,7 @@ def sign_up(request): #회원가입 구현함수
 
         else:
             context["error"] = "아이디와 비밀번호 를 다시 입력해주세요"
-            
+
     return render(request, "sign_up.html", context)
 
 def logout(request):
@@ -69,3 +71,38 @@ def chapter(request):
 
 def chap1(request):
     return render(request, "chap1.html")
+
+# csv_path = r"통합본 파일링크1"
+# # sentence 데이터베이스 저장하기
+# # 아래 파일들은 주석을 하나씩 해제해서, 집어넣어야함.
+# # 그렇게 안하면, 매우 큰 문제가 발생합니다.....^^
+# with open(csv_path, 'r', encoding='utf-8') as csvfile:
+#     data_reader = csv.DictReader(csvfile)
+#     for row in data_reader:
+#         print(row)
+#         EssentialSentenceDB.objects.create(
+#             Chap_No=row["chap_no"],
+#             Essentence_question=row["sentence"],
+#         )
+
+# csv_path = r"통합본 파일링크2"
+# # sentence 데이터베이스 저장하기
+# with open(csv_path, 'r', encoding='utf-8') as csvfile:
+#     data_reader = csv.DictReader(csvfile)
+#     for row in data_reader:
+#         print(row)
+#         ConversationPracticeAnswerDB.objects.create(
+#             Chap_No=row["chap_no"],
+#             Cosentence_answer=row["answer"],
+#         )
+
+# csv_path = r"통합본 파일링크3"
+# # sentence 데이터베이스 저장하기
+# with open(csv_path, 'r', encoding='utf-8') as csvfile:
+#     data_reader = csv.DictReader(csvfile)
+#     for row in data_reader:
+#         print(row)
+#         ConversationPracticeQuestionDB.objects.create(
+#             Chap_No=row["chap_no"],
+#             Cosentence_Question=row["question"],
+#         )
