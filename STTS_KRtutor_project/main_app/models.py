@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 # update 함수를 짠다.
 
 class CheckProcess(models.Model):
-    user = models.ForeignKey(User, related_name="checkprocess", on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, related_name="checkprocess", on_delete=models.CASCADE)
     chap_1 = models.IntegerField()
     chap_2 = models.IntegerField()
     chap_3 = models.IntegerField()
@@ -15,8 +15,8 @@ class CheckProcess(models.Model):
     chap_5 = models.IntegerField()
     chap_6 = models.IntegerField()
 
-    def __str__(self):
-        return f"{self.user.get_username()}"
+    # def __str__(self):
+    #     return f"{self.user.get_username()}"
 
 
 #일단 주석처리 ...
