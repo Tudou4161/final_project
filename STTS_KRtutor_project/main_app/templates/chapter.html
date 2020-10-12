@@ -1,48 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .modal_wrap{
-        display: none;
-        width: 500px;
-        height: 500px;
-        position: absolute;
-        top:50%;
-        left: 50%;
-        margin: -250px 0 0 -250px;
-        background:#eee;
-        z-index: 2;
-        }
-        .black_bg{
-            display: none;
-            position: absolute;
-            content: "";
-            width: 100%;
-            height: 100%;
-            background-color:rgba(0, 0,0, 0.5);
-            top:0;
-            left: 0;
-            z-index: 1;
-        }
-        .modal_close{
-            width: 26px;
-            height: 26px;
-            position: absolute;
-            top: -30px;
-            right: 0;
-        }
-        .modal_close> a{
-            display: block;
-            width: 100%;
-            height: 100%;
-            background:url(https://img.icons8.com/metro/26/000000/close-window.png);
-            text-indent: -9999px;
-        }
-    </style>
-
+    <title>chapter</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script>
         window.onload = function() {
     
@@ -62,28 +26,34 @@
     </script>
 </head>
 <body>
-    <h1>안녕하세용 mm-up 서비스입니다.</h1>
-    <!-- {% if user.is_authenticated %}
-        <div class="container">
-            <form action="{% url 'logout' %}" method="POST">
-                {% csrf_token %}
-                {{user.get_username}}님 환영합니다!
-                <button type="submit" class="btn btn-primary">LOGOUT</button>
-            </form>
+    <div class="logout_box">
+        <button type='button' id="modal_btn">log out</button>
+        <div class="black_bg"></div>
+        <div class="modal_wrap">
+            <div class="modal_close"><a href="#">close</a></div>
+            <div>
+                you want to log out?
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">YES</button>
+                </form>
+            </div>
         </div>
-    {% endif %} -->
-    <div>{{user.get_username}}님 환영합니다!</div>
-    <button type='button' id="modal_btn">모달창아 나와랏</button>
-    <div class="black_bg"></div>
-    <div class="modal_wrap">
-        <div class="modal_close"><a href="#">close</a></div>
-        <div>
-            로그아웃 할거에요 ?
-            <form action="{% url 'logout' %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">LOGOUT</button>
-            </form>
+    </div>
+    <div class="chapter_container">
+        <div class="chapter_header">{{user.get_username}}님 환영합니다!</div>
+        <div class="chapterbox">
+            <div class="chap_line">
+                <div class="box"><a href="">chap_1</a></div>
+                <div class="box"><a href="">chap_2</a></div>
+                <div class="box"><a href="">chap_3</a></div>
+            </div>
+            <div class="chap_line">
+                <div class="box"><a href="">chap_4</a></div>
+                <div class="box"><a href="">chap_5</a></div>
+                <div class="box"><a href="">chap_6</a></div>
+            </div>
         </div>
-    <div>
+    </div>
 </body>
 </html>
