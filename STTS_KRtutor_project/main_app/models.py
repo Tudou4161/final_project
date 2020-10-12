@@ -14,49 +14,20 @@ class CheckProcess(models.Model):
     chap_4 = models.IntegerField()
     chap_5 = models.IntegerField()
     chap_6 = models.IntegerField()
-
     # def __str__(self):
     #     return f"{self.user.get_username()}"
 
+class ChapterNumberDB(models.Model):  #챕터 넘버링
+    Chap_No = models.IntegerField()
 
-#일단 주석처리 ...
-# class CheckProcessDetailsChap1(models.Model):
-#     username = models.ForeignKey(User, related_name="checkprocess", on_delete=models.CASCADE)
-#     chap_1_check = models.ForeignKey(CheckProcess.chap_1, related_name="chap_1_checks", on_delete=models.CASCADE)
-#     chap_1_1_check = models.IntegerField()
-#     chap_1_2_check = models.IntegerField()
+class EssentialSentenceDB(models.Model): #필수문장 적재
+    Chap_No = models.ForeignKey(ChapterNumberDB.Chap_No, related_name="essential_sentence", on_delete=models.CASCADE)
+    Essentence_question = models.CharField(max_length=300)
 
+class ConversationPracticeQuestionDB(models.Model): #발화실습 문장(TTS) 데이터 적재
+    Chap_No = models.ForeignKey(ChapterNumberDB.Chap_No, related_name="conversation_question", on_delete=models.CASCADE)
+    Cosentence_question = models.CharField(max_length=300)
 
-# class CheckProcessDetailsChap2(models.Model):
-#     username = models.ForeignKey(User, related_name="checkprocess", on_delete=models.CASCADE)
-#     chap_2_check = models.ForeignKey('CheckProcess.chap_2', related_name="chap_2_checks", on_delete=models.CASCADE)
-#     chap_2_1_check = models.IntegerField()
-#     chap_2_2_check = models.IntegerField()
-
-
-# class CheckProcessDetailsChap3(models.Model):
-#     username = models.ForeignKey(User, related_name="checkprocess", on_delete=models.CASCADE)
-#     chap_3_check = models.ForeignKey('CheckProcess.chap_3', related_name="chap_3_checks", on_delete=models.CASCADE)
-#     chap_3_1_check = models.IntegerField()
-#     chap_3_2_check = models.IntegerField()
-
-
-# class CheckProcessDetailsChap4(models.Model):
-#     username = models.ForeignKey(User, related_name="checkprocess", on_delete=models.CASCADE)
-#     chap_4_check = models.ForeignKey('CheckProcess.chap_4', related_name="chap_4_checks", on_delete=models.CASCADE)
-#     chap_4_1_check = models.IntegerField()
-#     chap_4_2_check = models.IntegerField()
-
-
-# class CheckProcessDetailsChap5(models.Model):
-#     username = models.ForeignKey(User, related_name="checkprocess", on_delete=models.CASCADE)
-#     chap_5_check = models.ForeignKey('CheckProcess.chap_5', related_name="chap_5_checks", on_delete=models.CASCADE)
-#     chap_5_1_check = models.IntegerField()
-#     chap_5_2_check = models.IntegerField()
-
-
-# class CheckProcessDetailsChap6(models.Model):
-#     username = models.ForeignKey(User, related_name="checkprocess", on_delete=models.CASCADE)
-#     chap_6_check = models.ForeignKey('CheckProcess.chap_6', related_name="chap_6_checks", on_delete=models.CASCADE)
-#     chap_6_1_check = models.IntegerField()
-#     chap_6_2_check = models.IntegerField()
+class ConversationPracticeAnswerDB(models.Model): #발화실습 답변(STT) 데이터 적재
+    Chap_No = models.ForeignKey(ChapterNumberDB.Chap_No, related_name="conversation_answer", on_delete=models.CASCADE)
+    Cosentence_answer = models.CharField(max_length=300)

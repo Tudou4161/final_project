@@ -55,6 +55,7 @@ def sign_up(request): #회원가입 구현함수
 
         else:
             context["error"] = "아이디와 비밀번호 를 다시 입력해주세요"
+            
     return render(request, "sign_up.html", context)
 
 def logout(request):
