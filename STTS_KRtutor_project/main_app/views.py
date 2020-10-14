@@ -72,7 +72,32 @@ def chapter(request):
 def chap1(request):
     return render(request, "chap1.html")
 
-# csv_path = r"통합본 파일링크1"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# csv_path = r"C:\Users\WIN10\Desktop\final_project\final_project\STTS_KRtutor_project\main_app\data\Essential_sentence.csv"
 # # sentence 데이터베이스 저장하기
 # # 아래 파일들은 주석을 하나씩 해제해서, 집어넣어야함.
 # # 그렇게 안하면, 매우 큰 문제가 발생합니다.....^^
@@ -82,10 +107,10 @@ def chap1(request):
 #         print(row)
 #         EssentialSentenceDB.objects.create(
 #             Chap_No=row["chap_no"],
-#             Essentence_question=row["sentence"],
+#             Essentence_question=row["sentence"]
 #         )
 
-# csv_path = r"통합본 파일링크2"
+# csv_path = r"C:\Users\WIN10\Desktop\final_project\final_project\STTS_KRtutor_project\main_app\data\answer_sentence.csv"
 # # sentence 데이터베이스 저장하기
 # with open(csv_path, 'r', encoding='utf-8') as csvfile:
 #     data_reader = csv.DictReader(csvfile)
@@ -93,10 +118,10 @@ def chap1(request):
 #         print(row)
 #         ConversationPracticeAnswerDB.objects.create(
 #             Chap_No=row["chap_no"],
-#             Cosentence_answer=row["answer"],
+#             Cosentence_answer=row["answer"]
 #         )
 
-# csv_path = r"통합본 파일링크3"
+# csv_path = r"C:\Users\WIN10\Desktop\final_project\final_project\STTS_KRtutor_project\main_app\data\TTS_sentence.csv"
 # # sentence 데이터베이스 저장하기
 # with open(csv_path, 'r', encoding='utf-8') as csvfile:
 #     data_reader = csv.DictReader(csvfile)
@@ -104,5 +129,5 @@ def chap1(request):
 #         print(row)
 #         ConversationPracticeQuestionDB.objects.create(
 #             Chap_No=row["chap_no"],
-#             Cosentence_Question=row["question"],
+#             Cosentence_question=row["question"]
 #         )
