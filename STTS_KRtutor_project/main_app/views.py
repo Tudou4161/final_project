@@ -4,6 +4,7 @@ from django.contrib import auth
 from .models import CheckProcess
 from .models import EssentialSentenceDB, ConversationPracticeQuestionDB, ConversationPracticeAnswerDB
 import csv
+#from .STT_inApp import MicrophoneStream
 
 # Create your views here.
 def main(request): #로그인 구현 함수
