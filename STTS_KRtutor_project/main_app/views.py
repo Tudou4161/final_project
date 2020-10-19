@@ -92,7 +92,9 @@ def chap_detail(request, cn_ChapNo):
     }
     return render(request, 'chap_detail.html', context)
 
-def chap_sentence(request):
+def chap_sentence_ES(request):
+    # chap_sentence_es = EssentialSentenceDB.objects.all()
+    # chap_first_sentence_es = chap_sentence_es.objects.get(sentence_no=1)
     pass
 
 
@@ -119,7 +121,9 @@ def chap_sentence(request):
 
 
 
-import csv
+
+
+#import csv
 # csv_path = r"C:\Users\WIN10\Desktop\final_project\final_project\STTS_KRtutor_project\main_app\data\Essential_sentence.csv"
 # # sentence 데이터베이스 저장하기
 # # 아래 파일들은 주석을 하나씩 해제해서, 집어넣어야함.
