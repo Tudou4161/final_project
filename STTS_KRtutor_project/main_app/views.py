@@ -92,6 +92,9 @@ def chap_detail(request, cn_ChapNo):
     }
     return render(request, 'chap_detail.html', context)
 
+def LV1clear(request):
+    return render(request, "LV1clear.html")
+
 def chap_sentence_ES(request):
     # chap_sentence_es = EssentialSentenceDB.objects.all()
     # chap_first_sentence_es = chap_sentence_es.objects.get(sentence_no=1)

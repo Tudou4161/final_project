@@ -44,13 +44,29 @@
 
     <div class="chapter_container">
         <div class="chapter_header">{{user.get_username}}님 환영합니다!</div>
-        <div class="chapterbox">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="chapterbox">
+                <div class="chap_line">
+                    <button type="submit" class="box" formaction="/chap_detail/1">1</button>
+                    <button type="submit" class="box" formaction="/chap_detail/2">2</button>
+                    <button type="submit" class="box" formaction="/chap_detail/3">3</button>
+                </div>
+                <div class="chap_line">
+                    <button type="submit" class="box" formaction="/chap_detail/4">4</button>
+                    <button type="submit" class="box" formaction="/chap_detail/5">5</button>
+                    <button type="submit" class="box" formaction="/chap_detail/6">6</button>
+                </div>
+            </div>
+        </form>
+        <!-- <div class="chapterbox">
             <div class="chap_line">
                 {% for cn in chap_number %}
                 <button type="submit" class="box"><a href="{% url 'chap_detail' cn.ChapNo %}"> {{cn.ChapNo}} </a></button>
                 {% endfor %}
             </div>
-        </div>
+        </div> -->
+
     </div>
 </body>
 </html>

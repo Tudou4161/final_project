@@ -27,4 +27,6 @@ urlpatterns = [
     path('chap_detail/<int:cn_ChapNo>', views.chap_detail, name="chap_detail"),
     #path('chap_detail/<int:cn_ChapNo>/chap_sentence/<int:es_sentence_no>', views.chap_Essential_sentence, name="chap_Essential_sentence")
     #path('chap_detail/<int:cn_ChapNo>/chap_sentence/<int:co_sentence_no>', views.chap_Conversation_sentence, name="chap_Conversation_sentence")
+    path('chapter', views.chapter, name="chapter"),
+    path('LV1clear', views.LV1clear, name="LV1clear"),
 ]

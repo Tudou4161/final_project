@@ -39,19 +39,30 @@
                 </form>
             </div>
         </div>
-
     </div>
+
+    <div id="re_chap">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" formaction="../chapter">chapter</button>
+        </form>
+    </div>
+
     <div class="chapter_container">
         <div class="chapter_header">{{user.get_username}}님 환영합니다!</div>
-            <div class="chapterbox">
-                <div class="chap_line">
-                    <div class="chap_LV">{{ chap_detail.InnerChapOne }}</div>
-                </div>
-                
-                <div class="chap_line">
-                    <div class="chap_LV">{{ chap_detail.InnerChapTwo }}</div>
-                </div>
+        <div class="chapterbox">
+            <div class="chap_line">
+                <div class="chap_LV">{{ chap_detail.InnerChapOne }}</div>
             </div>
+            
+            <div class="chap_line">
+                <div class="chap_LV">{{ chap_detail.InnerChapTwo }}</div>
+            </div>
+        </div>
+        <form action="/LV1clear" method="post">
+            {% csrf_token %}
+            <button type="submit">폭죽 ㄱㄱ?</button>
+        </form>
     </div>
 </body>
 </html>
