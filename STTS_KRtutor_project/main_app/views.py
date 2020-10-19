@@ -47,24 +47,25 @@ def sign_up(request): #회원가입 구현함수
                 password=request.POST["password"]
             )
 
-            # new_CheckTable = CheckProcess(
-            #     user=User.objects.get(username=user_id),
-            #     chap_1= 1,
-            #     chap_2= 1,
-            #     chap_3= 1,
-            #     chap_4= 1,
-            #     chap_5= 1,
-            #     chap_6= 1
-            # )
-            # new_CheckTable.save()
+            new_CheckTable = CheckProcess(
+                user=User.objects.get(username=user_id),
+                chap_1= 1,
+                chap_2= 1,
+                chap_3= 1,
+                chap_4= 1,
+                chap_5= 1,
+                chap_6= 1
+            )
+            new_CheckTable.save()
 
-            #auth.login(request, new_user)
+            auth.login(request, new_user)
             return redirect("main")
 
         else:
             context["error"] = "아이디와 비밀번호 를 다시 입력해주세요"
 
     return render(request, "sign_up.html", context)
+
 
 def logout(request):
     if request.method == "POST":
@@ -83,6 +84,7 @@ def chapter(request):
 
     return render(request, "chapter.html", context)
 
+
 def chap_detail(request, cn_ChapNo):
     chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
     
@@ -92,6 +94,8 @@ def chap_detail(request, cn_ChapNo):
 
     return render(request, 'chap_detail.html', context)
 
+def chap_sentence(request):
+    pass
 
 
 
