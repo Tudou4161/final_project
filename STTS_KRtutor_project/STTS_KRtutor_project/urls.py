@@ -25,8 +25,7 @@ urlpatterns = [
     path('sign_up', views.sign_up, name="sign_up"),
     path('logout/', views.logout, name="logout"),
     path('chap_detail/<int:cn_ChapNo>', views.chap_detail, name="chap_detail"),
-    #path('chap_detail/<int:cn_ChapNo>/chap_sentence/<int:es_sentence_no>', views.chap_Essential_sentence, name="chap_Essential_sentence")
-    #path('chap_detail/<int:cn_ChapNo>/chap_sentence/<int:co_sentence_no>', views.chap_Conversation_sentence, name="chap_Conversation_sentence")
+    path('chap_sentence/<int:esc_SentenceNo>', views.chap_sentence_ES, name="chap_Essential_sentence"),
     path('chapter', views.chapter, name="chapter"),
     path('LV1clear', views.LV1clear, name="LV1clear"),
 ]

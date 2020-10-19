@@ -75,30 +75,46 @@ def logout(request):
 
 def chapter(request):
     chap_no = ChapterNumberDB.objects.all()
-    sentence = EssentialSentenceDB.objects.all()
 
     context = {
         'chap_number' : chap_no,
-        'sentence' : sentence
     }
+
     return render(request, "chapter.html", context)
 
 
 def chap_detail(request, cn_ChapNo):
     chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
+    essential_content = EssentialSentenceDB.objects.filter(ChapNo=cn_ChapNo, InnerNo=1)
+    conversation_content = ConversationPracticeQuestionDB.objects.filter(ChapNo=cn_ChapNo, InnerNo=2)
+    
+    #chap_first_sentence_es = chap_sentence_es.objects.get(sentence_no=1)
     
     context = {
-        'chap_detail' : chap_detail
-    }
+        'chap_detail' : chap_detail,
+        'esc' : essential_content[0],
+        'conc' : conversation_content[0]
+     }
+
     return render(request, 'chap_detail.html', context)
+
 
 def LV1clear(request):
     return render(request, "LV1clear.html")
 
-def chap_sentence_ES(request):
+
+def chap_sentence_ES(request, sentence_no):
     # chap_sentence_es = EssentialSentenceDB.objects.all()
-    # chap_first_sentence_es = chap_sentence_es.objects.get(sentence_no=1)
-    pass
+    chap_first_sentence_es = chap_sentence_es.objects.get(ChapNo=cn_ChapNo, InnerNo=1, sentence_no=1)
+
+    context = {
+        'first_sentence' : chap_first_sentence_es
+    }
+
+    return render(request, "chap_sentence.html", context)
+
+
+    
 
 
 
