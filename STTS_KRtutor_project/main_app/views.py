@@ -119,7 +119,7 @@ def chap_sentence(request):
 
 
 
-#import csv
+import csv
 # csv_path = r"C:\Users\WIN10\Desktop\final_project\final_project\STTS_KRtutor_project\main_app\data\Essential_sentence.csv"
 # # sentence 데이터베이스 저장하기
 # # 아래 파일들은 주석을 하나씩 해제해서, 집어넣어야함.
