@@ -26,25 +26,21 @@ class ChapterNumberDB(models.Model):  #챕터 넘버링
 
 
 class EssentialSentenceDB(models.Model): #필수문장 적재
-    #Chap_No = models.ForeignKey(ChapterNumberDB, related_name="essential_sentence", on_delete=models.CASCADE)
-    #InnerChapOne = models.ForeignKey(ChapterNumberDB, related_name="essential_sentence1", on_delete=models.CASCADE)
     ChapNo = models.IntegerField()
-    #InnerChapOne = models.IntegerField(default=1)
-    #InnerChapTwo = models.IntegerField(default=2)
+    InnerNo = models.IntegerField()
+    SentenceNo = models.IntegerField()
     Essentence_question = models.CharField(max_length=300)
 
 
 class ConversationPracticeQuestionDB(models.Model): #발화실습 문장(TTS) 데이터 적재
-    #Chap_No = models.ForeignKey(ChapterNumberDB, related_name="conversation_question", on_delete=models.CASCADE)
-    #InnerChapTwo = models.ForeignKey(ChapterNumberDB, related_name="conversation_question1", on_delete=models.CASCADE)
     ChapNo = models.IntegerField()
-    #InnerChapOne = models.IntegerField(default=1)
-    #InnerChapTwo = models.IntegerField(default=2)
+    InnerNo = models.IntegerField()
+    SentenceNo = models.IntegerField()
     Cosentence_question = models.CharField(max_length=300)
 
 
 class ConversationPracticeAnswerDB(models.Model): #발화실습 답변(STT) 데이터 적재
     ChapNo = models.IntegerField()
-    #Chap_No = models.ForeignKey(ChapterNumberDB, related_name="conversation_answer", on_delete=models.CASCADE)
-    #InnerChapTwo = models.ForeignKey(ChapterNumberDB, related_name="conversation_answer1", on_delete=models.CASCADE)
+    InnerNo = models.IntegerField()
+    SentenceNo = models.IntegerField()
     Cosentence_answer = models.CharField(max_length=300)

@@ -119,6 +119,7 @@ def chap_sentence(request):
 
 
 
+#import csv
 # csv_path = r"C:\Users\WIN10\Desktop\final_project\final_project\STTS_KRtutor_project\main_app\data\Essential_sentence.csv"
 # # sentence 데이터베이스 저장하기
 # # 아래 파일들은 주석을 하나씩 해제해서, 집어넣어야함.
@@ -128,7 +129,9 @@ def chap_sentence(request):
 #     for row in data_reader:
 #         print(row)
 #         EssentialSentenceDB.objects.create(
-#             Chap_No=row["chap_no"],
+#             ChapNo=row["chap_no"],
+#             InnerNo=row["inner_no"],
+#             SentenceNo=row["sentence_no"],
 #             Essentence_question=row["sentence"]
 #         )
 
@@ -139,8 +142,10 @@ def chap_sentence(request):
 #     for row in data_reader:
 #         print(row)
 #         ConversationPracticeAnswerDB.objects.create(
-#             Chap_No=row["chap_no"],
-#             Cosentence_answer=row["answer"]
+#             ChapNo=row["chap_no"],
+#             InnerNo=row["inner_no"],
+#             SentenceNo=row["sentence_no"],     
+#             Cosentence_answer=row["sentence"]
 #         )
 
 # csv_path = r"C:\Users\WIN10\Desktop\final_project\final_project\STTS_KRtutor_project\main_app\data\TTS_sentence.csv"
@@ -150,6 +155,8 @@ def chap_sentence(request):
 #     for row in data_reader:
 #         print(row)
 #         ConversationPracticeQuestionDB.objects.create(
-#             Chap_No=row["chap_no"],
-#             Cosentence_question=row["question"]
+#             ChapNo=row["chap_no"],
+#             InnerNo=row["inner_no"],
+#             SentenceNo=row["sentence_no"],
+#             Cosentence_question=row["sentence"]
 #         )
