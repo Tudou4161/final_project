@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from .models import CheckProcess
 from .models import EssentialSentenceDB, ConversationPracticeQuestionDB, ConversationPracticeAnswerDB
-import csv
-#from .STT_inApp import MicrophoneStream
+from .models import ChapterNumberDB
 
 # Create your views here.
 def main(request): #로그인 구현 함수
@@ -20,7 +19,13 @@ def main(request): #로그인 구현 함수
 
             if user is not None:
                 auth.login(request, user)
-                return render(request, "chapter.html")
+                chap_no = ChapterNumberDB.objects.all()
+                #로그인과 동시에 메인화면을 보여줘야함. 여기서 문제가 발생해서 수정함.
+                context = {
+                    'chap_number' : chap_no
+                }
+
+                return render(request, "chapter.html", context)
             else:
                 context["error"] = "아이디와 비밀번호를 다시 확인해주세요."
         else:
@@ -42,18 +47,18 @@ def sign_up(request): #회원가입 구현함수
                 password=request.POST["password"]
             )
 
-            new_CheckTable = CheckProcess(
-                user=User.objects.get(username=user_id),
-                chap_1= 1,
-                chap_2= 1,
-                chap_3= 1,
-                chap_4= 1,
-                chap_5= 1,
-                chap_6= 1
-            )
-            new_CheckTable.save()
+            # new_CheckTable = CheckProcess(
+            #     user=User.objects.get(username=user_id),
+            #     chap_1= 1,
+            #     chap_2= 1,
+            #     chap_3= 1,
+            #     chap_4= 1,
+            #     chap_5= 1,
+            #     chap_6= 1
+            # )
+            # new_CheckTable.save()
 
-            auth.login(request, new_user)
+            #auth.login(request, new_user)
             return redirect("main")
 
         else:
@@ -68,10 +73,24 @@ def logout(request):
 
 
 def chapter(request):
-    return render(request, "chapter.html")
+    chap_no = ChapterNumberDB.objects.all()
+    sentence = EssentialSentenceDB.objects.all()
 
-def chap1(request):
-    return render(request, "chap1.html")
+    context = {
+        'chap_number' : chap_no,
+        'sentence' : sentence
+    }
+
+    return render(request, "chapter.html", context)
+
+def chap_detail(request, cn_ChapNo):
+    chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
+    
+    context = {
+        'chap_detail' : chap_detail
+    }
+
+    return render(request, 'chap_detail.html', context)
 
 
 
