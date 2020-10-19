@@ -81,7 +81,6 @@ def chapter(request):
         'chap_number' : chap_no,
         'sentence' : sentence
     }
-
     return render(request, "chapter.html", context)
 
 
@@ -91,7 +90,6 @@ def chap_detail(request, cn_ChapNo):
     context = {
         'chap_detail' : chap_detail
     }
-
     return render(request, 'chap_detail.html', context)
 
 def chap_sentence(request):
