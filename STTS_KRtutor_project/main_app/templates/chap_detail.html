@@ -54,9 +54,9 @@
             {% csrf_token %}
             <div class="chapterbox">
                 <div class="chap_line">
-                    <button type="submit" class="chap_LV" formaction="/chap_sentence">LV. {{ chap_detail.InnerChapOne }}</button>
+                    <button type="submit" class="chap_LV" name="lv1" value="1" formaction="/chap_sentence"> LV. {{ chap_detail.InnerChapOne }} </button>
                 
-                    <button type="submit" class="chap_LV" formaction="">LV. {{ chap_detail.InnerChapTwo }}</button>
+                    <button type="submit" class="chap_LV" name="lv2" value="2" formaction="/chap_sentence2"> LV. {{ chap_detail.InnerChapTwo }} </button>
                     <!-- disabled="disabled" -->
                 </div>
             </div>

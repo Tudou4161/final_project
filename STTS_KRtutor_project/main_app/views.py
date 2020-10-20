@@ -99,20 +99,31 @@ def chap_detail(request, cn_ChapNo):
 
 
 def chap_sentence_ES(request):
-   inner_no = request.POST["lv1"] #1-2 문자열 값을 받아온다.
+    inner_no = request.POST["lv1"] #1-2 문자열 값을 받아온다.
 
-   search = EssentialSentenceDB.objects.filter(ChapNo=chap_number, 
+    search = EssentialSentenceDB.objects.filter(ChapNo=chap_number, 
                                                 InnerNo=int(inner_no))
 
     context = {
-        'x' : search
+        'sentence' : search
     }
 
     return render(request, "chap_sentence.html", context)
 
 
 def chap_sentence_Con(request):
-    pass
+    inner_no = request.POST["lv2"]
+
+    search1 = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=int(inner_no))
+    search2 = ConversationPracticeAnswerDB.objects.filter(ChapNo=chap_number, InnerNo=int(inner_no))
+
+    context = {
+        'question' : search1,
+        'answer' : search2
+    }
+
+    return render(request, "chap_sentence2.html", context)
+    
     
 def LV1clear(request):
     return render(request, "LV1clear.html")

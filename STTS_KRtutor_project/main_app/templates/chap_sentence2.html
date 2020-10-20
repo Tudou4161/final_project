@@ -75,7 +75,7 @@
     </div>
 
     <div class="chapter_container">
-        <div class="chapter_header">chapter 1 - level 1</div>
+        <div class="chapter_header">chapter 1 - level 2</div>
 
         <div class="chapterbox">
             <button id="speech" onclick="speech_to_text()">Start STT</button>
@@ -83,8 +83,12 @@
 
             <p id="message">버튼을 누르고 아무말이나 하세요.</p>
             <br />
-            {% for s in sentence %}
-                {{ s.Essentence_question }}
+            {% for q in question %}
+                <p>{{ q.Cosentence_question }}</p>
+            {% endfor %}
+            <br />
+            {% for a in answer %}
+                <p>{{ a.Consentence_answer }}</p>
             {% endfor %}
             
             <div class="textWrapper">
