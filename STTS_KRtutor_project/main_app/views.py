@@ -1,3 +1,5 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -99,11 +101,12 @@ def chap_detail(request, cn_ChapNo):
 
 
 def chap_sentence_ES(request):
+    
     inner_no = request.POST["lv1"] #1-2 문자열 값을 받아온다.
 
     search = EssentialSentenceDB.objects.filter(ChapNo=chap_number, 
                                                 InnerNo=int(inner_no))
-
+    
     context = {
         'sentence' : search
     }
