@@ -50,21 +50,17 @@
 
     <div class="chapter_container">
         <div class="chapter_header">{{user.get_username}}님 환영합니다!</div>
-        <div class="chapterbox">
-            <div class="chap_line">
-                <div class="chap_LV">
-                    <a href="{% url 'chap_sentence' escontent.SentenceNo %}">{{ chap_detail.InnerChapOne }}</a>
-                    level{{ chap_detail.InnerChapOne }}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="chapterbox">
+                <div class="chap_line">
+                    <button type="submit" class="chap_LV" formaction="/chap_sentence">LV. {{ chap_detail.InnerChapOne }}</button>
+                
+                    <button type="submit" class="chap_LV" formaction="">LV. {{ chap_detail.InnerChapTwo }}</button>
+                    <!-- disabled="disabled" -->
                 </div>
             </div>
-            
-            <div class="chap_line">
-                <div class="chap_LV">
-                    <a href="{% url 'chap_sentence' conccontent.SentenceNo %}">{{ chap_detail.InnerChapTwo }}</a>
-                    level{{ chap_detail.InnerChapTwo }}
-                </div>
-            </div>
-        </div>
+        </form>
         <form action="/LV1clear" method="post">
             {% csrf_token %}
             <button type="submit">폭죽 ㄱㄱ?</button>
@@ -72,3 +68,5 @@
     </div>
 </body>
 </html>
+
+

@@ -109,6 +109,10 @@ def chap_sentence_ES(request):
     }
 
     return render(request, "chap_sentence.html", context)
+
+
+def chap_sentence_Con(request):
+    pass
     
 def LV1clear(request):
     return render(request, "LV1clear.html")

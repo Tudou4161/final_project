@@ -140,11 +140,12 @@ body{
 
 .chap_line{
     width: 100%;
-    height: 45%;
+    height: 100%;
     
     border-radius: 5px;
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -154,7 +155,7 @@ body{
     justify-content: center;
     align-items: center;
 
-    width: 30%;
+    width: 80%;
     height: 80%;
 
     border: none;
@@ -163,7 +164,7 @@ body{
     background-color:#ebc7ff;
     
     margin: 10px;
-    margin-top: 10%;
+    /* margin-top: 10%; */
 }
 
 .box:hover{
@@ -185,8 +186,8 @@ body{
     border-radius: 10px;
     background-color:#ebc7ff;
     
-    margin: 10px;
-    margin-top: 10%;
+    margin: 5%;
+    /* margin-top: 10%; */
 }
 .chap_LV:hover{
     background-color: #d994ff;
