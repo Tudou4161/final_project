@@ -3,6 +3,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
+#페이지 네이터 모듈 추가
+from django.core.paginator import Paginator
 from .models import CheckProcess
 from .models import EssentialSentenceDB, ConversationPracticeQuestionDB, ConversationPracticeAnswerDB
 from .models import ChapterNumberDB
@@ -87,60 +89,59 @@ def chapter(request):
 
 def chap_detail(request, cn_ChapNo):
     chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
-    
     #chapter_Number를 전역변수에 담아준다.
     global chap_number
     chap_number = cn_ChapNo
 
     
     context = {
-        'chap_detail' : chap_detail
+        'chap_detail' : chap_detail,
     }
 
     return render(request, 'chap_detail.html', context)
 
 
-def chap_sentence_ES(request):
-    
-    global cnt
-    cnt = 1
-    
-    inner_no = request.POST["lv1"] #1-2 문자열 값을 받아온다.
-
-    search = EssentialSentenceDB.objects.filter(ChapNo=chap_number, 
-                                                InnerNo=int(inner_no))
-
-    # if request.method == "POST": #만약 templates 메소드가 POST이면..
-    #     if 'kor_stt_sentence' in request.POST:
-    #         user_post_sentence = request.GET["kor_stt_sentence"] #사용자가 말한 문장을 변수에 저장하고, 아래의 과정에 따라 유사도를 측정한다.
-    #         sent = (user_post_sentence,
-    #                 search.values()[cnt]['Essentence_question'])
+# def chap_sentence_ES(request):
+#     if request.method == "POST": #만약 templates 메소드가 POST이면..
+#         if 'kor_stt_sentence' in request.POST:
+#             user_post_sentence = request.GET["kor_stt_sentence"] #사용자가 말한 문장을 변수에 저장하고, 아래의 과정에 따라 유사도를 측정한다.
+#             sent = (user_post_sentence,
+#                     search.values()[cnt]['Essentence_question'])
             
-    #         tfidf_vec = TfidfVectorizer() 
-    #         tfidf_mat = tfidf_vec.fit_transform(sent)
-    #         threshold = cosine_similarity(tfidf_mat[0:1], tfidf_mat[1:2])
+#             tfidf_vec = TfidfVectorizer() 
+#             tfidf_mat = tfidf_vec.fit_transform(sent)
+#             threshold = cosine_similarity(tfidf_mat[0:1], tfidf_mat[1:2])
 
-    #         if threshold > 0.3: #임계치가 0.3을 넘으면...
-    #             cnt += 1 #cnt를 증가시켜준다.
-    #             if_alert = "맞았습니다. 다음 문장으로 넘어가주세요"
-    #             if_context = {
-    #                 'if_alert' : if_alert,
-    #                 'sentence' : search.get(SentenceNo=cnt)
-    #             }
-    #             return render(request, "chap_sentence.html", if_context)
+#             if threshold > 0.3: #임계치가 0.3을 넘으면...
+#                 cnt += 1 #cnt를 증가시켜준다.
+#                 if_alert = "맞았습니다. 다음 문장으로 넘어가주세요"
+#                 if_context = {
+#                     'if_alert' : if_alert,
+#                     'sentence' : search.get(SentenceNo=cnt)
+#                 }
+#                 return render(request, "chap_sentence.html", if_context)
 
-    #         elif threshold <= 0.3:
-    #             elif_alert = "틀렸습니다. 다시 말씀해주세요."
-    #             elif_context = {
-    #                 'elif_alert' : elif_alert,
-    #                 'sentence' : search.get(SentenceNo=cnt)
-    #             }
-    #             return render(request, "chap_sentence.html", elif_context)
-    
-    context = {
-        'sentence' : search.get(SentenceNo=cnt)
-        }
-    return render(request, "chap_sentence.html", context)
+#             elif threshold <= 0.3:
+#                 elif_alert = "틀렸습니다. 다시 말씀해주세요."
+#                 elif_context = {
+#                     'elif_alert' : elif_alert,
+#                     'sentence' : search.get(SentenceNo=cnt)
+#                 }
+#                 return render(request, "chap_sentence.html", elif_context)
+
+
+def chap_sentence_ES(request):
+    #sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
+
+    sentence_list = EssentialSentenceDB.objects.all()
+    paginator = Paginator(sentence_list, 1)
+
+    page = request.GET.get('page')
+
+    sentences = paginator.get_page(page)
+
+    return render(request, "chap_sentence.html", {"sentences" : sentences})
+
 
 
 def chap_sentence_Con(request):
