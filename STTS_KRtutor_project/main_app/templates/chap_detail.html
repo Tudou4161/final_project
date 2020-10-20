@@ -53,13 +53,15 @@
         <div class="chapterbox">
             <div class="chap_line">
                 <div class="chap_LV">
-                    <a href="{% url 'chap_sentence' esc %}">{{ chap_detail.InnerChapOne }}</a>
+                    <a href="{% url 'chap_sentence' escontent.SentenceNo %}">{{ chap_detail.InnerChapOne }}</a>
+                    level{{ chap_detail.InnerChapOne }}
                 </div>
             </div>
             
             <div class="chap_line">
                 <div class="chap_LV">
-                    <a href="{% url 'chap_sentence' conc %}">{{ chap_detail.InnerChapTwo }}</a>
+                    <a href="{% url 'chap_sentence' conccontent.SentenceNo %}">{{ chap_detail.InnerChapTwo }}</a>
+                    level{{ chap_detail.InnerChapTwo }}
                 </div>
             </div>
         </div>

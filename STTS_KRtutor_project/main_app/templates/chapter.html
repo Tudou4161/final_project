@@ -59,14 +59,14 @@
                 </div>
             </div>
         </form> {% endcomment %}
-        
+
         <div class="chapterbox">
             <div class="chap_line">
                 {% for cn in chap_number %}
-                <button type="submit" class="box"><a href="{% url 'chap_detail' cn.ChapNo %}"> {{cn.ChapNo}} </a></button>
+                    <button type="submit" class="box"><a href="{% url 'chap_detail' cn.ChapNo %}"> {{cn.ChapNo}} </a></button>
                 {% endfor %}
             </div>
         </div>
-    </div>
+    </div> 
 </body>
 </html>

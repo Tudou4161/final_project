@@ -85,37 +85,33 @@ def chapter(request):
 
 def chap_detail(request, cn_ChapNo):
     chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
-    essential_content = EssentialSentenceDB.objects.filter(ChapNo=cn_ChapNo, InnerNo=1)
-    conversation_content = ConversationPracticeQuestionDB.objects.filter(ChapNo=cn_ChapNo, InnerNo=2)
     
-    #chap_first_sentence_es = chap_sentence_es.objects.get(sentence_no=1)
+    #chapter_Number를 전역변수에 담아준다.
+    global chap_number
+    chap_number = cn_ChapNo
+
     
     context = {
-        'chap_detail' : chap_detail,
-        'esc' : essential_content[0],
-        'conc' : conversation_content[0]
-     }
+        'chap_detail' : chap_detail
+    }
 
     return render(request, 'chap_detail.html', context)
 
 
-def LV1clear(request):
-    return render(request, "LV1clear.html")
+def chap_sentence_ES(request):
+   inner_no = request.POST["lv1"] #1-2 문자열 값을 받아온다.
 
-
-def chap_sentence_ES(request, sentence_no):
-    # chap_sentence_es = EssentialSentenceDB.objects.all()
-    chap_first_sentence_es = chap_sentence_es.objects.get(ChapNo=cn_ChapNo, InnerNo=1, sentence_no=1)
+   search = EssentialSentenceDB.objects.filter(ChapNo=chap_number, 
+                                                InnerNo=int(inner_no))
 
     context = {
-        'first_sentence' : chap_first_sentence_es
+        'x' : search
     }
 
     return render(request, "chap_sentence.html", context)
-
-
     
-
+def LV1clear(request):
+    return render(request, "LV1clear.html")
 
 
 
