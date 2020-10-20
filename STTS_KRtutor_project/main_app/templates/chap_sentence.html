@@ -83,10 +83,23 @@
 
             <p id="message">버튼을 누르고 아무말이나 하세요.</p>
             <br />
-            {% for s in sentence %}
+            {% comment %} {% for s in sentence %}
                 {{ s.Essentence_question }}
-            {% endfor %}
-            
+            {% endfor %} {% endcomment %}
+            {{ sentence.Essentence_question }}
+
+        {% comment %} <form id = "Essential_sentence" action = "{% url 'chap_sentece' %}" method="POST">
+            {% csrf_token %}
+            <input 
+                id = "sentence_input"
+                name = "kor_stt_sentence"
+                placeholder= "write your sentence" 
+                type="text"
+            />
+            <button type = "submit" id = "sentence_sent">Send</button>
+        </form> {% endcomment %}
+
+
             <div class="textWrapper">
                 <div id="korea" class="textbox"></div>
                 <!-- <div class="textbox">
