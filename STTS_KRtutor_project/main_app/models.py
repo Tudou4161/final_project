@@ -30,6 +30,7 @@ class EssentialSentenceDB(models.Model): #필수문장 적재
     InnerNo = models.IntegerField()
     SentenceNo = models.IntegerField()
     Essentence_question = models.CharField(max_length=300)
+    
     def __str__(self):
         return f"{self.Essentence_question}"
 
@@ -38,6 +39,7 @@ class ConversationPracticeQuestionDB(models.Model): #발화실습 문장(TTS) �
     InnerNo = models.IntegerField()
     SentenceNo = models.IntegerField()
     Cosentence_question = models.CharField(max_length=300)
+
     def __str__(self):
         return f"{self.Cosentence_question}"
 
@@ -47,5 +49,6 @@ class ConversationPracticeAnswerDB(models.Model): #발화실습 답변(STT) 데�
     InnerNo = models.IntegerField()
     SentenceNo = models.IntegerField()
     Cosentence_answer = models.CharField(max_length=300)
+    
     def __str__(self):
         return f"{self.Cosentence_answer}"
