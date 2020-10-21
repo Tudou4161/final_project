@@ -82,21 +82,11 @@
             <button id="stop" onclick="stop()">Stop</button>
 
             <p id="message">버튼을 누르고 아무말이나 하세요.</p>
+            <button id="text_to_speech" onclick="TTS()">TTS</button>
             <br />
             {% for sentence in sentences %}
-                <div>{{ sentence.Essentence_question }}</div>
+                <div id="SEQ">{{ sentence.Essentence_question }}</div>
             {% endfor %}
-            <br />
-            {%if sentences.has_previous %}
-                <a href="?page=1">1</a>
-                <a href="?page={{ sentences.previous_page_number }}">Previous</a>
-            {% endif %}
-                <span> {{ sentences.number }} </span>
-            {% if sentences.has_next %}
-                <a href="?page={{ sentences.next_page_number }}">Next</a>
-                <a href="?page={{ sentences.paginator.num_pages }}">{{ sentences.paginator.num_pages }}</a>
-            {% endif %}
-
 
             <div class="textWrapper">
                 <div id="korea" class="textbox"></div>
@@ -158,9 +148,6 @@
                         // user.innerHTML = resText;
                         // document.getElementById('inputlog').appendChild(user).setAttribute('class','user_request');
                         // inputlog.innerHTML = korea.innerHTML
-                        // //text to sppech
-                        //  text_to_speech(resText);
-                        
                      };
         
                     recognition.onend = function(){
@@ -207,10 +194,28 @@
                      };
                      window.speechSynthesis.speak(msg);
                  }
-        
-            </script>
-        </div>
+                 
 
+                function TTS() {
+                    //text to sppech
+                    basic_sentence = document.getElementById('SEQ').innerText
+                    text_to_speech(basic_sentence);
+                }
+
+            </script>
+            <br />
+            {%if sentences.has_previous %}
+                <a href="?page=1">1</a>
+                <a href="?page={{ sentences.previous_page_number }}">Previous</a>
+            {% endif %}
+                <span> {{ sentences.number }} </span>
+            {% if sentences.has_next %}
+                <a href="?page={{ sentences.next_page_number }}">Next</a>
+                <a href="?page={{ sentences.paginator.num_pages }}">{{ sentences.paginator.num_pages }}</a>
+            {% endif %}
+        </div>
+        
+        
     </div>
 
 </body>

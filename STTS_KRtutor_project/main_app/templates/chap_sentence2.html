@@ -83,13 +83,22 @@
 
             <p id="message">버튼을 누르고 아무말이나 하세요.</p>
             <br />
-            {% for q in question %}
-                <p>{{ q.Cosentence_question }}</p>
+            {% for question in question %}
+                <p>{{ question.Cosentence_question }}</p>
             {% endfor %}
-            <br />
-            {% for a in answer %}
-                <p>{{ a.Cosentence_answer }}</p>
+            {% for answer in answer %}
+                <p>{{ answer.Cosentence_answer }}</p>
             {% endfor %}
+            <br>
+            {%if answer.has_previous %}
+                <a href="?page=1">1</a>
+                <a href="?page={{ answer.previous_page_number }}">Previous</a>
+            {% endif %}
+                <span> {{ answer.number }} </span>
+            {% if answer.has_next %}
+                <a href="?page={{ answer.next_page_number }}">Next</a>
+                <a href="?page={{ answer.paginator.num_pages }}">{{ answer.paginator.num_pages }}</a>
+            {% endif %}
             
             <div class="textWrapper">
                 <div id="korea" class="textbox"></div>

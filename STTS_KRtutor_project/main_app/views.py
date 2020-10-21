@@ -131,9 +131,9 @@ def chap_detail(request, cn_ChapNo):
 
 
 def chap_sentence_ES(request):
-    #sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
+    sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
 
-    sentence_list = EssentialSentenceDB.objects.all()
+    # sentence_list = EssentialSentenceDB.objects.all()
     paginator = Paginator(sentence_list, 1)
 
     page = request.GET.get('page')
@@ -145,17 +145,18 @@ def chap_sentence_ES(request):
 
 
 def chap_sentence_Con(request):
-    inner_no = request.POST["lv2"]
+    question_list = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=2)
+    answer_list = ConversationPracticeAnswerDB.objects.filter(ChapNo=chap_number, InnerNo=2)
 
-    search1 = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=int(inner_no))
-    search2 = ConversationPracticeAnswerDB.objects.filter(ChapNo=chap_number, InnerNo=int(inner_no))
+    paginator_q = Paginator(question_list, 1)
+    paginator_a = Paginator(answer_list, 1)
 
-    context = {
-        'question' : search1,
-        'answer' : search2
-    }
+    page = request.GET.get('page')
 
-    return render(request, "chap_sentence2.html", context)
+    question = paginator_q.get_page(page)
+    answer = paginator_a.get_page(page)
+
+    return render(request, "chap_sentence2.html", {"question" : question, "answer" : answer})
     
     
 def LV1clear(request):
