@@ -84,11 +84,13 @@
             <p id="message">버튼을 누르고 아무말이나 하세요.</p>
             <br />
             {% for question in question %}
-                <p>{{ question.Cosentence_question }}</p>
+                <div id="SEQ">{{ question.Cosentence_question }}</div>
             {% endfor %}
+            <button id="text_to_speech" onclick="TTS1()">TTS</button>
             {% for answer in answer %}
-                <p>{{ answer.Cosentence_answer }}</p>
+                <div id="SEA">{{ answer.Cosentence_answer }}</div>
             {% endfor %}
+            <button id="text_to_speech" onclick="TTS2()">TTS</button>
             <br>
             {%if answer.has_previous %}
                 <a href="?page=1">1</a>
@@ -208,7 +210,16 @@
                      };
                      window.speechSynthesis.speak(msg);
                  }
-        
+                function TTS1() {
+                    //text to sppech
+                    basic_sentence = document.getElementById('SEQ').innerText
+                    text_to_speech(basic_sentence);
+                }
+                function TTS2() {
+                    //text to sppech
+                    basic_sentence = document.getElementById('SEA').innerText
+                    text_to_speech(basic_sentence);
+                }
             </script>
         </div>
 
