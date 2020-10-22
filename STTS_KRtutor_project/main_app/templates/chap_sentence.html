@@ -87,13 +87,19 @@
             {% for sentence in sentences %}
                 <div id="SEQ">{{ sentence.Essentence_question }}</div>
             {% endfor %}
+            {% for stc_trans in sentences_trans %}
+                <div id="SET">{{ stc_trans }}</div>
+            {% endfor %}
 
-            <div class="textWrapper">
-                <div id="korea" class="textbox"></div>
-                <!-- <div class="textbox">
-                    <div id="inputlog"></div>
-                </div> -->
-            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="textWrapper">
+                    <div id="korea" class="textbox"></div>
+                    <input name="origintext" id="origintext" style="display: none;">
+                    <button name="sendtext" id="sendtext" style="display: none;"></button>
+                </div>
+            </form>
+
             <script type="text/javascript">
 
                 var message = document.querySelector("#message");
@@ -165,6 +171,13 @@
                      button.disabled = false;
                      button.innerHTML = "Start STT";
                      isRecognizing = false;
+                     
+                    //  form 내부의 버튼 작동?
+                    document.getElementById("sendtext").value = korea.innerHTML
+                    document.getElementById("origintext").value = document.getElementById('SEQ').innerText
+                    
+                    document.getElementById("sendtext").click()
+
                  }
         
         
