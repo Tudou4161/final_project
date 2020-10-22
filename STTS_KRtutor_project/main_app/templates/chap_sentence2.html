@@ -75,27 +75,39 @@
     </div>
 
     <div class="chapter_container">
-        <div class="chapter_header">chapter 1 - level 1</div>
+        <div class="chapter_header">chapter 1 - level 2</div>
 
         <div class="chapterbox">
             <button id="speech" onclick="speech_to_text()">Start STT</button>
             <button id="stop" onclick="stop()">Stop</button>
 
             <p id="message">버튼을 누르고 아무말이나 하세요.</p>
-            <button id="text_to_speech" onclick="TTS()">TTS</button>
             <br />
-            {% for sentence in sentences %}
-                <div id="SEQ">{{ sentence.Essentence_question }}</div>
+            {% for question in question %}
+                <div id="SEQ">{{ question.Cosentence_question }}</div>
             {% endfor %}
-
-            <form method="POST">
-                {% csrf_token %}
-                <div class="textWrapper">
-                    <div id="korea" class="textbox"></div>
-                    <button name="sendtext" id="sendtext" style="display: none;"></button>
-                </div>
-            </form>
-
+            <button id="text_to_speech" onclick="TTS1()">TTS</button>
+            {% for answer in answer %}
+                <div id="SEA">{{ answer.Cosentence_answer }}</div>
+            {% endfor %}
+            <button id="text_to_speech" onclick="TTS2()">TTS</button>
+            <br>
+            {%if answer.has_previous %}
+                <a href="?page=1">1</a>
+                <a href="?page={{ answer.previous_page_number }}">Previous</a>
+            {% endif %}
+                <span> {{ answer.number }} </span>
+            {% if answer.has_next %}
+                <a href="?page={{ answer.next_page_number }}">Next</a>
+                <a href="?page={{ answer.paginator.num_pages }}">{{ answer.paginator.num_pages }}</a>
+            {% endif %}
+            
+            <div class="textWrapper">
+                <div id="korea" class="textbox"></div>
+                <!-- <div class="textbox">
+                    <div id="inputlog"></div>
+                </div> -->
+            </div>
             <script type="text/javascript">
 
                 var message = document.querySelector("#message");
@@ -114,7 +126,7 @@
                      console.error(e);
                  }
         
-                 recognition.lang = 'ko-KR'; //선택하게 해줘야 할듯 .
+                recognition.lang = 'ko-KR'; //선택하게 해줘야 할듯 .
                  recognition.interimResults = false;
                  recognition.maxAlternatives = 5;
                  //recognition.continuous = true;
@@ -150,7 +162,9 @@
                         // user.innerHTML = resText;
                         // document.getElementById('inputlog').appendChild(user).setAttribute('class','user_request');
                         // inputlog.innerHTML = korea.innerHTML
-                        text_to_speech(resText);
+                        // //text to sppech
+                        //  text_to_speech(resText);
+                        
                      };
         
                     recognition.onend = function(){
@@ -158,7 +172,6 @@
                          button.disabled = false;
                          button.innerHTML = "Start STT";
                          isRecognizing = false;
-        
                     }
                  }
         
@@ -168,11 +181,6 @@
                      button.disabled = false;
                      button.innerHTML = "Start STT";
                      isRecognizing = false;
-                     
-                    //  form 내부의 버튼 작동?
-                    document.getElementById("sendtext").value = korea.innerHTML
-                    document.getElementById("sendtext").click()
-
                  }
         
         
@@ -194,36 +202,27 @@
                      msg.text = txt;
                      msg.lang = 'ko-KR';
         
-                    // msg.onend = function(e) {
-                    //      if(isRecognizing == false){
-                    //          recognition.start();   
-                    //      }
-                    //        console.log('Finished in ' + event.elapsedTime + ' seconds.');
-                    //  };
+                    msg.onend = function(e) {
+                         if(isRecognizing == false){
+                             recognition.start();   
+                         }
+                           console.log('Finished in ' + event.elapsedTime + ' seconds.');
+                     };
                      window.speechSynthesis.speak(msg);
                  }
-                 
-
-                function TTS() {
+                function TTS1() {
                     //text to sppech
                     basic_sentence = document.getElementById('SEQ').innerText
                     text_to_speech(basic_sentence);
                 }
-
+                function TTS2() {
+                    //text to sppech
+                    basic_sentence = document.getElementById('SEA').innerText
+                    text_to_speech(basic_sentence);
+                }
             </script>
-            <br />
-            {%if sentences.has_previous %}
-                <a href="?page=1">1</a>
-                <a href="?page={{ sentences.previous_page_number }}">Previous</a>
-            {% endif %}
-                <span> {{ sentences.number }} </span>
-            {% if sentences.has_next %}
-                <a href="?page={{ sentences.next_page_number }}">Next</a>
-                <a href="?page={{ sentences.paginator.num_pages }}">{{ sentences.paginator.num_pages }}</a>
-            {% endif %}
         </div>
-        
-        
+
     </div>
 
 </body>

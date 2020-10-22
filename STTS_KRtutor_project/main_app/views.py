@@ -8,6 +8,10 @@ from django.core.paginator import Paginator
 from .models import CheckProcess
 from .models import EssentialSentenceDB, ConversationPracticeQuestionDB, ConversationPracticeAnswerDB
 from .models import ChapterNumberDB
+import json
+import os
+import sys
+import urllib.request
 
 # Create your views here.
 def main(request): #로그인 구현 함수
@@ -131,46 +135,97 @@ def chap_detail(request, cn_ChapNo):
 
 
 def chap_sentence_ES(request):
-    sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number, InnerNo=1)
+    sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
 
-    #sentence_list = EssentialSentenceDB.objects.all()
+    trans_list = []
+    for idx in range(len(sentence_list)):
+        trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], 'en')
+        trans_list.append(trans_stc)
 
+    # sentence_list = EssentialSentenceDB.objects.all()
     paginator = Paginator(sentence_list, 1)
+    paginator_trans = Paginator(trans_list, 1)
 
     page = request.GET.get('page')
 
     sentences = paginator.get_page(page)
+    sentences_trans = paginator_trans.get_page(page)
 
-    return render(request, "chap_sentence.html", {"sentences" : sentences})
+    if request.method == "POST":
+        if "sendtext" in request.POST:
+            sendtext = request.POST["sendtext"]
+            print(sendtext)
+
+            sent = (sendtext, sentence_list.values()[0]["Essentence_question"])
+            
+            tfidf_vec = TfidfVectorizer() 
+            tfidf_mat = tfidf_vec.fit_transform(sent)
+            threshold = cosine_similarity(tfidf_mat[0:1], tfidf_mat[1:2])
+
+            if threshold > 0.3:
+                print("맞았습니다.")
+            else:
+                print("틀렸습니다. 다시 시도해주세요! ")
+
+        else:
+            sendtext = False
+
+    
+    context = {
+        "sentences" : sentences,
+        "sentences_trans" : sentences_trans
+    }
+
+    return render(request, "chap_sentence.html", context)
 
 
 
 def chap_sentence_Con(request):
-    search1 = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=int(2))
-    search2 = ConversationPracticeAnswerDB.objects.filter(ChapNo=chap_number, InnerNo=int(2))
+    question_list = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=2)
+    answer_list = ConversationPracticeAnswerDB.objects.filter(ChapNo=chap_number, InnerNo=2)
 
-    sentence_list = []
-    for s1, s2 in search1, search2:
-        sentence_list.append(s1, s2)
-
-    paginator = Paginator(sentence_list, 2)
+    paginator_q = Paginator(question_list, 1)
+    paginator_a = Paginator(answer_list, 1)
 
     page = request.GET.get('page')
 
-    sentences = paginator.get_page(page)
+    question = paginator_q.get_page(page)
+    answer = paginator_a.get_page(page)
 
     context = {
-        'sentences' : sentences
+        "question" : question,
+        "answer" : answer
     }
 
     return render(request, "chap_sentence2.html", context)
     
+
     
 def LV1clear(request):
     return render(request, "LV1clear.html")
 
 
+def translate(sentence, target_lang):
+    client_id = "deribthgxo"
+    client_secret = "8NOoY9KhtwKHKZwpOQYr5bovSKA6DSctcC9eClf8"
+    encText = urllib.parse.quote(sentence)
+    data = f"source=ko&target={target_lang}&text=" + encText
 
+    url = "https://naveropenapi.apigw.ntruss.com/nmt/v1/translation"
+    request = urllib.request.Request(url)
+    request.add_header("X-NCP-APIGW-API-KEY-ID",client_id)
+    request.add_header("X-NCP-APIGW-API-KEY",client_secret)
+    response = urllib.request.urlopen(request, data=data.encode("utf-8"))
+    rescode = response.getcode()
+
+    if(rescode==200):
+        response_body = response.read()
+        result = response_body.decode('utf-8')
+        json_sentence = json.loads(result)
+        return json_sentence["message"]["result"]["translatedText"]
+        
+    else:
+        return "Error Code:" + rescode
 
 
 
