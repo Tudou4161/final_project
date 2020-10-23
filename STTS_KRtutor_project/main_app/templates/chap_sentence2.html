@@ -86,11 +86,23 @@
             {% for question in question %}
                 <div id="SEQ">{{ question.Cosentence_question }}</div>
             {% endfor %}
+
+            {% for question_stc_trans in question_trans %}
+                <div id="SET">{{ question_stc_trans }}</div>
+            {% endfor %}
+
             <button id="text_to_speech" onclick="TTS1()">TTS</button>
+
             {% for answer in answer %}
                 <div id="SEA">{{ answer.Cosentence_answer }}</div>
             {% endfor %}
+
+            {% for answer_stc_trans in answer_trans %}
+                <div id="SET">{{ answer_stc_trans }}</div>
+            {% endfor %}
+
             <button id="text_to_speech" onclick="TTS2()">TTS</button>
+
             <br>
             {%if answer.has_previous %}
                 <a href="?page=1">1</a>
@@ -102,12 +114,15 @@
                 <a href="?page={{ answer.paginator.num_pages }}">{{ answer.paginator.num_pages }}</a>
             {% endif %}
             
-            <div class="textWrapper">
-                <div id="korea" class="textbox"></div>
-                <!-- <div class="textbox">
-                    <div id="inputlog"></div>
-                </div> -->
-            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="textWrapper">
+                    <div id="korea" class="textbox"></div>
+                    <input name="origintext" id="origintext" style="display: none;">
+                    <button name="sendtext" id="sendtext" style="display: none;"></button>
+                </div>
+            </form>
+
             <script type="text/javascript">
 
                 var message = document.querySelector("#message");
@@ -181,6 +196,13 @@
                      button.disabled = false;
                      button.innerHTML = "Start STT";
                      isRecognizing = false;
+                     
+                    //  form 내부의 버튼 작동?
+                    document.getElementById("sendtext").value = korea.innerHTML
+                    document.getElementById("origintext").value = document.getElementById('SEA').innerText
+                    
+                    document.getElementById("sendtext").click()
+
                  }
         
         

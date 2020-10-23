@@ -139,8 +139,17 @@ def chap_sentence_ES(request):
 
     trans_list = []
     for idx in range(len(sentence_list)):
-        trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], 'en')
-        trans_list.append(trans_stc)
+        page = request.GET.get('page')
+        if page == None:
+            page = 1
+            if idx == page-1:
+                trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], 'en')
+                trans_list.append(trans_stc)
+        else:
+            page = int(page)
+            if idx == page-1:
+                trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], 'en')
+                trans_list.append(trans_stc)
 
     # sentence_list = EssentialSentenceDB.objects.all()
     paginator = Paginator(sentence_list, 1)
@@ -154,9 +163,11 @@ def chap_sentence_ES(request):
     if request.method == "POST":
         if "sendtext" in request.POST:
             sendtext = request.POST["sendtext"]
+            origintext = request.POST["origintext"]
+            print(origintext)
             print(sendtext)
 
-            sent = (sendtext, sentence_list.values()[0]["Essentence_question"])
+            sent = (sendtext, origintext)
             
             tfidf_vec = TfidfVectorizer() 
             tfidf_mat = tfidf_vec.fit_transform(sent)
@@ -165,7 +176,7 @@ def chap_sentence_ES(request):
             if threshold > 0.3:
                 print("맞았습니다.")
             else:
-                print("틀렸습니다. 다시 시도해주세요! ")
+                print("틀렸습니다. 다시 시도해주세요!")
 
         else:
             sendtext = False
@@ -184,17 +195,72 @@ def chap_sentence_Con(request):
     question_list = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=2)
     answer_list = ConversationPracticeAnswerDB.objects.filter(ChapNo=chap_number, InnerNo=2)
 
+    question_trans_list = []
+    for idx in range(len(question_list)):
+        page = request.GET.get('page')
+        if page == None:
+            page = 1
+            if idx == page-1:
+                question_trans_stc = translate(question_list.values()[idx]["Cosentence_question"], 'en')
+                question_trans_list.append(question_trans_stc)
+        else:
+            page = int(page)
+            if idx == page-1:
+                question_trans_stc = translate(question_list.values()[idx]["Cosentence_question"], 'en')
+                question_trans_list.append(question_trans_stc)
+
+    answer_trans_list = []
+    for idx in range(len(answer_list)):
+        page = request.GET.get('page')
+        if page == None:
+            page = 1
+            if idx == page-1:
+                answer_trans_stc = translate(answer_list.values()[idx]["Cosentence_answer"], 'en')
+                answer_trans_list.append(answer_trans_stc)
+        else:
+            page = int(page)
+            if idx == page-1:
+                answer_trans_stc = translate(answer_list.values()[idx]["Cosentence_answer"], 'en')
+                answer_trans_list.append(answer_trans_stc)
+
     paginator_q = Paginator(question_list, 1)
+    paginator_q_trans = Paginator(question_trans_list, 1)
     paginator_a = Paginator(answer_list, 1)
+    paginator_a_trans = Paginator(answer_trans_list, 1)
 
     page = request.GET.get('page')
 
     question = paginator_q.get_page(page)
+    question_trans = paginator_q_trans.get_page(page)
     answer = paginator_a.get_page(page)
+    answer_trans = paginator_a_trans.get_page(page)
+
+    if request.method == "POST":
+        if "sendtext" in request.POST:
+            sendtext = request.POST["sendtext"]
+            origintext = request.POST["origintext"]
+            print(origintext)
+            print(sendtext)
+
+            sent = (sendtext, origintext)
+            
+            tfidf_vec = TfidfVectorizer() 
+            tfidf_mat = tfidf_vec.fit_transform(sent)
+            threshold = cosine_similarity(tfidf_mat[0:1], tfidf_mat[1:2])
+
+            if threshold > 0.3:
+                print("맞았습니다.")
+            else:
+                print("틀렸습니다. 다시 시도해주세요!")
+
+        else:
+            sendtext = False
 
     context = {
         "question" : question,
-        "answer" : answer
+        "question_trans" : question_trans,
+        "answer" : answer,
+        "answer_trans" : answer_trans
     }
 
     return render(request, "chap_sentence2.html", context)
