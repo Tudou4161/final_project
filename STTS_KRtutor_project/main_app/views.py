@@ -15,12 +15,13 @@ import urllib.request
 
 # Create your views here.
 def main(request): #로그인 구현 함수
-    context = {}
 
     global en 
 
+    context = {}
+    
     if request.method == "POST":
-        en = request.POST["trans_lang_option"]    
+        en = request.POST["trans_lang_option"]
 
     if request.method == "POST":
         if (request.POST["userid"] and request.POST["password"]):
@@ -111,6 +112,7 @@ def chap_detail(request, cn_ChapNo):
     return render(request, 'chap_detail.html', context)
 
 
+
 def chap_sentence_ES(request):
     sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
 
@@ -165,6 +167,8 @@ def chap_sentence_ES(request):
     }
 
     return render(request, "chap_sentence.html", context)
+
+
 
 def chap_sentence_Con(request):
     question_list = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=2)
@@ -267,27 +271,6 @@ def translate(sentence, target_lang):
         
     else:
         return "Error Code:" + rescode
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #import csv
