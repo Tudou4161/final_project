@@ -141,7 +141,7 @@ def chap_sentence_ES(request):
     sentences_trans = paginator_trans.get_page(page)
 
     check_list = [0] * len(sentence_list)
-    
+
     if request.method == "POST":
         if "sendtext" in request.POST:
             sendtext = request.POST["sendtext"]
@@ -166,7 +166,7 @@ def chap_sentence_ES(request):
                 print("틀렸습니다. 다시 시도해주세요!")
                 check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
                 check_index = check_index.values()[0]["SentenceNo"]
-                check_list[check_index - 1] = 1
+                check_list[check_index - 1] = 0
                 print(check_list)
 
         else:
