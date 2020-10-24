@@ -124,6 +124,7 @@ def chap_sentence_ES(request):
             if idx == page-1:
                 trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], en)
                 trans_list.append(trans_stc)
+                
         else:
             page = int(page)
             if idx == page-1:
@@ -139,6 +140,8 @@ def chap_sentence_ES(request):
     sentences = paginator.get_page(page)
     sentences_trans = paginator_trans.get_page(page)
 
+    check_list = [0] * len(sentence_list)
+    
     if request.method == "POST":
         if "sendtext" in request.POST:
             sendtext = request.POST["sendtext"]
@@ -154,8 +157,17 @@ def chap_sentence_ES(request):
 
             if threshold > 0.3:
                 print("맞았습니다.")
+                check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
+                check_index = check_index.values()[0]["SentenceNo"]
+                check_list[check_index - 1] = 1
+                print(check_list)
+                
             else:
                 print("틀렸습니다. 다시 시도해주세요!")
+                check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
+                check_index = check_index.values()[0]["SentenceNo"]
+                check_list[check_index - 1] = 1
+                print(check_list)
 
         else:
             sendtext = False
