@@ -230,6 +230,15 @@
                 <a href="?page={{ sentences.paginator.num_pages }}">{{ sentences.paginator.num_pages }}</a>
             {% endif %}
         </div>
+
+        <div>
+            {% if is_complete == True %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" formaction="/LV1clear">수료 완료!</button>
+                </form>
+            {% endif %}
+        </div>
         
         
     </div>

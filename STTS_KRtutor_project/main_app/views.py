@@ -105,6 +105,7 @@ def chap_detail(request, cn_ChapNo):
     #chapter_Number를 전역변수에 담아준다.
     global chap_number
     chap_number = cn_ChapNo
+     
     global check_list
     sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
     check_list = [False] * len(sentence_list)
@@ -173,7 +174,7 @@ def chap_sentence_ES(request):
                 print("틀렸습니다. 다시 시도해주세요!")
                 check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
                 check_index = check_index.values()[0]["SentenceNo"]
-                check_list[check_index - 1] = False
+                check_list[check_index - 1] = True
                 print(check_list)
                 print("수료하지 못했습니다.")
 
@@ -183,7 +184,8 @@ def chap_sentence_ES(request):
     
     context = {
         "sentences" : sentences,
-        "sentences_trans" : sentences_trans
+        "sentences_trans" : sentences_trans,
+        "is_complete" : all(check_list)
     }
 
     return render(request, "chap_sentence.html", context)
