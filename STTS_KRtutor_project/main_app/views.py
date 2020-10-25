@@ -109,6 +109,10 @@ def chap_detail(request, cn_ChapNo):
     global check_list
     sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
     check_list = [False] * len(sentence_list)
+
+    global check_list2
+    sentence_list2 = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=2)
+    check_list2 = [False] * len(sentence_list2)
     
     context = {
         'chap_detail' : chap_detail,
