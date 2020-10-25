@@ -12,6 +12,7 @@ import json
 import os
 import sys
 import urllib.request
+import copy
 
 # Create your views here.
 def main(request): #로그인 구현 함수
@@ -99,11 +100,14 @@ def chapter(request):
 
 
 def chap_detail(request, cn_ChapNo):
+    
     chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
     #chapter_Number를 전역변수에 담아준다.
     global chap_number
     chap_number = cn_ChapNo
-
+    global check_list
+    sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
+    check_list = [False] * len(sentence_list)
     
     context = {
         'chap_detail' : chap_detail,
@@ -140,8 +144,6 @@ def chap_sentence_ES(request):
     sentences = paginator.get_page(page)
     sentences_trans = paginator_trans.get_page(page)
 
-    check_list = [0] * len(sentence_list)
-
     if request.method == "POST":
         if "sendtext" in request.POST:
             sendtext = request.POST["sendtext"]
@@ -159,15 +161,21 @@ def chap_sentence_ES(request):
                 print("맞았습니다.")
                 check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
                 check_index = check_index.values()[0]["SentenceNo"]
-                check_list[check_index - 1] = 1
+                check_list[check_index - 1] = True
                 print(check_list)
+
+                if all(check_list) == True:
+                    print("수료하셨습니다.")
+                else:
+                    print("수료하지 못했습니다.")
                 
             else:
                 print("틀렸습니다. 다시 시도해주세요!")
                 check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
                 check_index = check_index.values()[0]["SentenceNo"]
-                check_list[check_index - 1] = 0
+                check_list[check_index - 1] = False
                 print(check_list)
+                print("수료하지 못했습니다.")
 
         else:
             sendtext = False
