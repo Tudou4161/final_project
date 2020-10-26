@@ -84,13 +84,9 @@ def logout(request):
 
 
 def chapter(request):
+    global username
 
-    # user = auth.authenticate(
-    #     request,
-    #     username=request.POST["userid"],
-    #     password=request.POST["password"]
-    # )
-    # auth.login(request, user)
+    username = request.POST["userid"]
 
     chap_no = ChapterNumberDB.objects.all()
 
@@ -99,14 +95,19 @@ def chapter(request):
     if request.method == "POST":
         en = request.POST["trans_lang_option"]
 
-    trans_list = []
-    for idx in range(1, len(chap_no)):
+    kr_trans_list = []
+    for idx in range(0, len(chap_no)):
+
+        no = chap_no.values()[idx]["ChapNo"]
+        chapName_kr = chap_no.values()[idx]["ChapName"]
         trans_stc = translate(chap_no.values()[idx]["ChapName"], en)
-        trans_list.append(trans_stc)
+
+        kr_trans_list.append([no, chapName_kr, trans_stc])
 
     context = {
+        'username': username,
         'chap_number': chap_no,
-        'trans_list': trans_list
+        'kr_trans_list': kr_trans_list
     }
 
     return render(request, "chapter.html", context)

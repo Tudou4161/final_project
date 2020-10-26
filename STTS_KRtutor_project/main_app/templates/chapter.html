@@ -43,15 +43,16 @@
     </div>
 
     <div class="chapter_container">
-        <div class="chapter_header">{{user.get_username}}님 환영합니다!</div>
+        <div class="chapter_header">{{ username }}님 환영합니다!</div>
         <form method="POST">
             {% csrf_token %}
             <div class="chapterbox">
                 <!-- 버튼 세로 나열 -->
                 <div class="chap_line">
-                    {% for cn in chap_number %}
-                    <button type="submit" class="box" formaction="{% url 'chap_detail' cn.ChapNo %}">
-                        {{cn.ChapNo}}. {{cn.ChapName}} {{ trans_list }}
+                    {% for ktl in kr_trans_list %}
+                    <button type="submit" class="box" formaction="{% url 'chap_detail' ktl.0 %}">
+                        {{ ktl.0 }} {{ ktl.1 }} {{ ktl.2 }}
+                        <br />
                     </button>
                     {% endfor %}
                 </div>
