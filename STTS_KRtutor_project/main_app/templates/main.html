@@ -21,7 +21,7 @@
         {% endif %}
         
         <div class="loginbox">
-            <form id = "log_in" action = "{% url 'main' %}" method="POST">
+            <form id = "log_in" action = "{% url 'chapter' %}" method="POST">
                 {% csrf_token %}
                 <select name="trans_lang_option">
                     <option value="vi">vietnam</option>

@@ -11,9 +11,9 @@
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/329180/Stage%400.1.4.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/329180/MyMath.js"></script>
 </head>
-<body>
+<body style=" margin: 0;">
     <!-- SVG Spritesheet -->
-    <div style="height: 0; width: 0; position: absolute; visibility: hidden;">
+    <div style="display: none">
         <svg xmlns="http://www.w3.org/2000/svg">
             <symbol id="icon-play" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z"/>
@@ -38,16 +38,28 @@
 
     <!-- App -->
     <div class="container">
-	<div class="loading-init">
-		<div class="loading-init__header">Loading</div>
-		<div class="loading-init__status">Assembling Shells</div>
-	</div>
-	<div class="stage-container remove">
-		<div class="canvas-container">
-			<canvas id="trails-canvas"></canvas>
-			<canvas id="main-canvas"></canvas>
-		</div>
-		<div class="controls">
+        <div class="loading-init">
+            <div class="loading-init__header">Loading</div>
+            <div class="loading-init__status">Assembling Shells</div>
+        </div>
+            
+        <div class="stage-container remove">
+            <div class="chapter_container" style=" background-color : black; z-index: inherit;">
+                <div class="chapter_header"style="padding: 0;color : white;">chapter 1 - level 1</div>
+            </div>
+            <form action="/{{chap_number}}/chap_detail" method="post">
+                {% csrf_token %}
+                <button type="submit">챕터 디테일로 이동</button>
+            </form>
+            <div class="canvas-container">
+                <canvas id="trails-canvas">
+                    <canvas id="main-canvas"></canvas>
+                </canvas>
+            </div>
+            
+        </div>
+
+		<div class="controls" style="display: none;">
 			<div class="btn pause-btn">
 				<svg fill="white" width="24" height="24"><use href="#icon-pause" xlink:href="#icon-pause"></use></svg>
 			</div>
@@ -58,7 +70,7 @@
 				<svg fill="white" width="24" height="24"><use href="#icon-settings" xlink:href="#icon-settings"></use></svg>
 			</div>
 		</div>
-		<div class="menu hide">
+		<div class="menu hide" style="display: none;">
 			<div class="menu__inner-wrap">
 				<div class="btn btn--bright close-menu-btn">
 					<svg fill="white" width="24" height="24"><use href="#icon-close" xlink:href="#icon-close"></use></svg>
@@ -113,7 +125,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="help-modal">
+	<div class="help-modal" style="display: none;">
 		<div class="help-modal__overlay"></div>
 		<div class="help-modal__dialog">
 			<div class="help-modal__header"></div>
@@ -147,8 +159,8 @@
         })();
         // Prevent canvases from getting too large on ridiculous screen sizes.
         // 8K - can restrict this if needed
-        const MAX_WIDTH = 7680;
-        const MAX_HEIGHT = 4320;
+        const MAX_WIDTH = 2000;
+        const MAX_HEIGHT = 650;
         const GRAVITY = 0.9; // Acceleration in px/s
         let simSpeed = 1;
 
@@ -2434,5 +2446,6 @@
         }
 
     </script>
+    
 </body>
 </html>

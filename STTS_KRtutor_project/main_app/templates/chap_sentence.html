@@ -76,7 +76,15 @@
 
     <div class="chapter_container">
         <div class="chapter_header"> chapter{{ chap_number }} - level{{ InnerNo }} </div>
-
+            <div class="check_list">
+            {% for check in check_list%}
+                {% if check == False %}
+                    <img src="{% static "img/non-check-mark-303498_30.png" %}">
+                {% else %}
+                    <img src="{% static "img/check-mark-303498_30.png" %}">
+                {% endif %}
+            {% endfor %}
+            </div>
         <div class="chapterbox">
             <button id="speech" onclick="speech_to_text()">Start STT</button>
             <button id="stop" onclick="stop()">Stop</button>
@@ -221,15 +229,12 @@
             </script>
             <br />
             {%if sentences.has_previous %}
-                <a href="?page=1">1</a>
-                <a href="?page={{ sentences.previous_page_number }}">Previous</a>
+            <button id="Previous" onclick = "location.href = '?page={{ sentences.previous_page_number }}' ">Previous</button>
             {% endif %}
                 <span> {{ sentences.number }} </span>
             {% if sentences.has_next %}
-                <a href="?page={{ sentences.next_page_number }}">Next</a>
-                <a href="?page={{ sentences.paginator.num_pages }}">{{ sentences.paginator.num_pages }}</a>
+            <button id="next" onclick = "location.href = '?page={{ sentences.next_page_number }}' ">Next</button>
             {% endif %}
-        </div>
 
         <div>
             {% if is_complete == True %}
