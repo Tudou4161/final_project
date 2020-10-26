@@ -68,9 +68,9 @@
     </div>
 
     <div id="re_chap"> <!-- 챕터로 돌아가기 -->
-        <form action="{% url 'chapter' %}" method="POST">
+        <form method="POST">
             {% csrf_token %}
-            <button type="submit" formaction="/chapter">chapter</button>
+            <button type="submit" name="go_before3" value="go_before3">chapter</button>
         </form>
     </div>
 

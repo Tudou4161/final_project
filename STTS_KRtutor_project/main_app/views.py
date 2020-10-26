@@ -84,12 +84,13 @@ def logout(request):
 
 
 def chapter(request):
-    user = auth.authenticate(
-        request,
-        username=request.POST["userid"],
-        password=request.POST["password"]
-    )
-    auth.login(request, user)
+
+    # user = auth.authenticate(
+    #     request,
+    #     username=request.POST["userid"],
+    #     password=request.POST["password"]
+    # )
+    # auth.login(request, user)
 
     chap_no = ChapterNumberDB.objects.all()
 
@@ -112,10 +113,10 @@ def chapter(request):
 
 
 def chap_detail(request, cn_ChapNo):
-    chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
     # chapter_Number를 전역변수에 담아준다.
     global chap_number
     chap_number = cn_ChapNo
+    chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
 
     global check_list
     sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number, InnerNo=1)
@@ -128,11 +129,15 @@ def chap_detail(request, cn_ChapNo):
     context = {
         'chap_detail': chap_detail,
     }
+    
+    if request.method == "POST":
+        if "go_before" in request.POST:
+            return redirect("chapter")
 
     return render(request, 'chap_detail.html', context)
 
 
-def chap_sentence_ES(request):
+def chap_sentence_ES(request, cn_ChapNo):
     sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number, InnerNo=1)
 
     trans_list = []
@@ -201,6 +206,10 @@ def chap_sentence_ES(request):
         "chap_number": chap_number,
         "InnerNo": 1
     }
+
+    if request.method == "POST":
+        if "go_before2" in request.POST:
+            return redirect("chapter")
 
     return render(request, "chap_sentence.html", context)
 
@@ -295,6 +304,10 @@ def chap_sentence_Con(request):
         "chap_number": chap_number,
         "InnerNo": 2
     }
+
+    if request.method == "POST":
+        if "go_before3" in request.POST:
+            return redirect("chapter")
 
     return render(request, "chap_sentence2.html", context)
 

@@ -19,14 +19,26 @@ from django.urls import path
 from main_app import views
 
 
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('', views.main, name="main"),
+#     path('sign_up', views.sign_up, name="sign_up"),
+#     path('logout/', views.logout, name="logout"),
+#     path('<int:cn_ChapNo>/chap_detail', views.chap_detail, name="chap_detail"),
+#     path('chap_sentence', views.chap_sentence_ES, name="chap_Essential_sentence"),
+#     path('chap_sentence2', views.chap_sentence_Con, name="chap_conversation_sentence"),
+#     path('chapter', views.chapter, name="chapter"),
+#     path('LV1clear', views.LV1clear, name="LV1clear"),
+# ]
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.main, name="main"),
     path('sign_up', views.sign_up, name="sign_up"),
     path('logout/', views.logout, name="logout"),
-    path('<int:cn_ChapNo>/chap_detail', views.chap_detail, name="chap_detail"),
-    path('chap_sentence', views.chap_sentence_ES, name="chap_Essential_sentence"),
-    path('chap_sentence2', views.chap_sentence_Con, name="chap_conversation_sentence"),
     path('chapter', views.chapter, name="chapter"),
-    path('LV1clear', views.LV1clear, name="LV1clear"),
+    path('chapter/<int:cn_ChapNo>/chap_detail', views.chap_detail, name="chap_detail"),
+    path('chapter/<int:cn_ChapNo>/chap_detail/chap_sentence', views.chap_sentence_ES, name="chap_Essential_sentence"),
+    path('chapter/<int:cn_ChapNo>/chap_detail/chap_sentence2', views.chap_sentence_Con, name="chap_conversation_sentence"),
+    path('chapter/<int:cn_ChapNo>/chap_detail/chap_sentence/LV1clear', views.LV1clear, name="LV1clear"),
 ]
