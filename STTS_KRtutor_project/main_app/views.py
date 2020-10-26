@@ -12,10 +12,18 @@ import json
 import os
 import sys
 import urllib.request
+import copy
 
 # Create your views here.
 def main(request): #로그인 구현 함수
+
+    global en 
+
     context = {}
+    
+    if request.method == "POST":
+        en = request.POST["trans_lang_option"]
+
     if request.method == "POST":
         if (request.POST["userid"] and request.POST["password"]):
             
@@ -84,19 +92,33 @@ def logout(request):
 def chapter(request):
     chap_no = ChapterNumberDB.objects.all()
 
+    trans_list = []
+    for idx in range(1, len(chap_no)):
+        trans_stc = translate(chap_no.values()[idx]["ChapName"], en)
+        trans_list.append(trans_stc)
+
     context = {
         'chap_number' : chap_no,
+        'trans_list' : trans_list
     }
 
     return render(request, "chapter.html", context)
 
 
 def chap_detail(request, cn_ChapNo):
+    
     chap_detail = ChapterNumberDB.objects.get(ChapNo=cn_ChapNo)
     #chapter_Number를 전역변수에 담아준다.
     global chap_number
     chap_number = cn_ChapNo
+     
+    global check_list
+    sentence_list = EssentialSentenceDB.objects.filter(ChapNo=chap_number,InnerNo=1)
+    check_list = [False] * len(sentence_list)
 
+    global check_list2
+    sentence_list2 = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=2)
+    check_list2 = [False] * len(sentence_list2)
     
     context = {
         'chap_detail' : chap_detail,
@@ -104,34 +126,6 @@ def chap_detail(request, cn_ChapNo):
 
     return render(request, 'chap_detail.html', context)
 
-
-# def chap_sentence_ES(request):
-#     if request.method == "POST": #만약 templates 메소드가 POST이면..
-#         if 'kor_stt_sentence' in request.POST:
-#             user_post_sentence = request.GET["kor_stt_sentence"] #사용자가 말한 문장을 변수에 저장하고, 아래의 과정에 따라 유사도를 측정한다.
-#             sent = (user_post_sentence,
-#                     search.values()[cnt]['Essentence_question'])
-            
-#             tfidf_vec = TfidfVectorizer() 
-#             tfidf_mat = tfidf_vec.fit_transform(sent)
-#             threshold = cosine_similarity(tfidf_mat[0:1], tfidf_mat[1:2])
-
-#             if threshold > 0.3: #임계치가 0.3을 넘으면...
-#                 cnt += 1 #cnt를 증가시켜준다.
-#                 if_alert = "맞았습니다. 다음 문장으로 넘어가주세요"
-#                 if_context = {
-#                     'if_alert' : if_alert,
-#                     'sentence' : search.get(SentenceNo=cnt)
-#                 }
-#                 return render(request, "chap_sentence.html", if_context)
-
-#             elif threshold <= 0.3:
-#                 elif_alert = "틀렸습니다. 다시 말씀해주세요."
-#                 elif_context = {
-#                     'elif_alert' : elif_alert,
-#                     'sentence' : search.get(SentenceNo=cnt)
-#                 }
-#                 return render(request, "chap_sentence.html", elif_context)
 
 
 def chap_sentence_ES(request):
@@ -143,12 +137,13 @@ def chap_sentence_ES(request):
         if page == None:
             page = 1
             if idx == page-1:
-                trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], 'en')
+                trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], en)
                 trans_list.append(trans_stc)
+                
         else:
             page = int(page)
             if idx == page-1:
-                trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], 'en')
+                trans_stc = translate(sentence_list.values()[idx]["Essentence_question"], en)
                 trans_list.append(trans_stc)
 
     # sentence_list = EssentialSentenceDB.objects.all()
@@ -175,8 +170,21 @@ def chap_sentence_ES(request):
 
             if threshold > 0.3:
                 print("맞았습니다.")
+                print(threshold)
+                check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
+                check_index = check_index.values()[0]["SentenceNo"]
+                check_list[check_index - 1] = True
+                print(check_list)
+
+                if all(check_list) == True:
+                    print("수료하셨습니다.")
+                else:
+                    print("수료하지 못했습니다.")
+
             else:
+                print(threshold)
                 print("틀렸습니다. 다시 시도해주세요!")
+                print("수료하지 못했습니다.")
 
         else:
             sendtext = False
@@ -184,7 +192,11 @@ def chap_sentence_ES(request):
     
     context = {
         "sentences" : sentences,
-        "sentences_trans" : sentences_trans
+        "sentences_trans" : sentences_trans,
+        "check_list" : check_list,
+        "is_complete" : all(check_list),
+        "chap_number" : chap_number,
+        "InnerNo" : 1
     }
 
     return render(request, "chap_sentence.html", context)
@@ -195,17 +207,91 @@ def chap_sentence_Con(request):
     question_list = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=2)
     answer_list = ConversationPracticeAnswerDB.objects.filter(ChapNo=chap_number, InnerNo=2)
 
+    question_trans_list = []
+    for idx in range(len(question_list)):
+        page = request.GET.get('page')
+        if page == None:
+            page = 1
+            if idx == page-1:
+                question_trans_stc = translate(question_list.values()[idx]["Cosentence_question"], en)
+                question_trans_list.append(question_trans_stc)
+        else:
+            page = int(page)
+            if idx == page-1:
+                question_trans_stc = translate(question_list.values()[idx]["Cosentence_question"], en)
+                question_trans_list.append(question_trans_stc)
+
+    answer_trans_list = []
+    for idx in range(len(answer_list)):
+        page = request.GET.get('page')
+        if page == None:
+            page = 1
+            if idx == page-1:
+                answer_trans_stc = translate(answer_list.values()[idx]["Cosentence_answer"], en)
+                answer_trans_list.append(answer_trans_stc)
+        else:
+            page = int(page)
+            if idx == page-1:
+                answer_trans_stc = translate(answer_list.values()[idx]["Cosentence_answer"], en)
+                answer_trans_list.append(answer_trans_stc)
+
     paginator_q = Paginator(question_list, 1)
+    paginator_q_trans = Paginator(question_trans_list, 1)
     paginator_a = Paginator(answer_list, 1)
+    paginator_a_trans = Paginator(answer_trans_list, 1)
 
     page = request.GET.get('page')
 
     question = paginator_q.get_page(page)
+    question_trans = paginator_q_trans.get_page(page)
     answer = paginator_a.get_page(page)
+    answer_trans = paginator_a_trans.get_page(page)
+
+    if request.method == "POST":
+        if "sendtext" in request.POST:
+            sendtext = request.POST["sendtext"]
+            origintext = request.POST["origintext"]
+            print(origintext)
+            print(sendtext)
+
+            sent = (sendtext, origintext)
+            
+            tfidf_vec = TfidfVectorizer() 
+            tfidf_mat = tfidf_vec.fit_transform(sent)
+            threshold = cosine_similarity(tfidf_mat[0:1], tfidf_mat[1:2])
+
+            if threshold > 0.3:
+                print(threshold)
+                print("맞았습니다.")
+                check_index = ConversationPracticeAnswerDB.objects.filter(Cosentence_answer=origintext)
+                check_index = check_index.values()[0]["SentenceNo"]
+                check_list[check_index - 1] = True
+                print(check_list)
+
+                if all(check_list) == True:
+                    print("수료하셨습니다.")
+                else:
+                    print("수료하지 못했습니다.")
+                    print(check_list)
+
+            else:
+                print(threshold)
+                print("틀렸습니다. 다시 시도해주세요!")
+                print("수료하지 못했습니다.")
+                print(check_list)
+
+        else:
+            sendtext = False
 
     context = {
         "question" : question,
-        "answer" : answer
+        "question_trans" : question_trans,
+        "answer" : answer,
+        "answer_trans" : answer_trans,
+        "check_list" : check_list,
+        "is_complete" : all(check_list),
+        "chap_number" : chap_number,
+        "InnerNo" : 2
     }
 
     return render(request, "chap_sentence2.html", context)
@@ -213,7 +299,10 @@ def chap_sentence_Con(request):
 
     
 def LV1clear(request):
-    return render(request, "LV1clear.html")
+    context = {
+        "chap_number" : chap_number
+    }
+    return render(request, "LV1clear.html", context)
 
 
 def translate(sentence, target_lang):
@@ -237,27 +326,6 @@ def translate(sentence, target_lang):
         
     else:
         return "Error Code:" + rescode
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #import csv

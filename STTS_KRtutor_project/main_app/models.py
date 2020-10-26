@@ -23,6 +23,10 @@ class ChapterNumberDB(models.Model):  #챕터 넘버링
     ChapNo = models.IntegerField()
     InnerChapOne = models.IntegerField(default=1)
     InnerChapTwo = models.IntegerField(default=2)
+    ChapName = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.ChapName
 
 
 class EssentialSentenceDB(models.Model): #필수문장 적재
@@ -30,6 +34,7 @@ class EssentialSentenceDB(models.Model): #필수문장 적재
     InnerNo = models.IntegerField()
     SentenceNo = models.IntegerField()
     Essentence_question = models.CharField(max_length=300)
+    
     def __str__(self):
         return f"{self.Essentence_question}"
 
@@ -38,6 +43,7 @@ class ConversationPracticeQuestionDB(models.Model): #발화실습 문장(TTS) �
     InnerNo = models.IntegerField()
     SentenceNo = models.IntegerField()
     Cosentence_question = models.CharField(max_length=300)
+
     def __str__(self):
         return f"{self.Cosentence_question}"
 
@@ -47,5 +53,11 @@ class ConversationPracticeAnswerDB(models.Model): #발화실습 답변(STT) 데�
     InnerNo = models.IntegerField()
     SentenceNo = models.IntegerField()
     Cosentence_answer = models.CharField(max_length=300)
+    
     def __str__(self):
         return f"{self.Cosentence_answer}"
+
+# class TipsDB(models.Model):
+#     ChapNo = models.IntegerField(),
+#     InnerNo = models.IntegerField(),
+#     TipSentence = models.CharField(max_length=1000)

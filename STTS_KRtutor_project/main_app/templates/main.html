@@ -23,6 +23,11 @@
         <div class="loginbox">
             <form id = "log_in" action = "{% url 'main' %}" method="POST">
                 {% csrf_token %}
+                <select name="trans_lang_option">
+                    <option value="vi">vietnam</option>
+                    <option value="zh-CN">chinese</option>
+                    <option value="en">English</option>
+                </select>
 
                 <input 
                     id = "user_id_input"
