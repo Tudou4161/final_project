@@ -50,7 +50,9 @@
                 <!-- 버튼 세로 나열 -->
                 <div class="chap_line">
                     {% for cn in chap_number %}
-                    <button type="submit" class="box" formaction="{% url 'chap_detail' cn.ChapNo %}">{{cn.ChapNo}}</button>
+                    <button type="submit" class="box" formaction="{% url 'chap_detail' cn.ChapNo %}">
+                        {{cn.ChapNo}}. {{cn.ChapName}} {{ trans_list }}
+                    </button>
                     {% endfor %}
                 </div>
                 <!-- 2*3 -->

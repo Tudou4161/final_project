@@ -92,8 +92,14 @@ def logout(request):
 def chapter(request):
     chap_no = ChapterNumberDB.objects.all()
 
+    trans_list = []
+    for idx in range(1, len(chap_no)):
+        trans_stc = translate(chap_no.values()[idx]["ChapName"], en)
+        trans_list.append(trans_stc)
+
     context = {
         'chap_number' : chap_no,
+        'trans_list' : trans_list
     }
 
     return render(request, "chapter.html", context)
@@ -164,6 +170,7 @@ def chap_sentence_ES(request):
 
             if threshold > 0.3:
                 print("맞았습니다.")
+                print(threshold)
                 check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
                 check_index = check_index.values()[0]["SentenceNo"]
                 check_list[check_index - 1] = True
@@ -173,13 +180,10 @@ def chap_sentence_ES(request):
                     print("수료하셨습니다.")
                 else:
                     print("수료하지 못했습니다.")
-                
+
             else:
+                print(threshold)
                 print("틀렸습니다. 다시 시도해주세요!")
-                check_index = EssentialSentenceDB.objects.filter(Essentence_question=origintext)
-                check_index = check_index.values()[0]["SentenceNo"]
-                check_list[check_index - 1] = True
-                print(check_list)
                 print("수료하지 못했습니다.")
 
         else:
@@ -189,7 +193,9 @@ def chap_sentence_ES(request):
     context = {
         "sentences" : sentences,
         "sentences_trans" : sentences_trans,
-        "is_complete" : all(check_list)
+        "is_complete" : all(check_list),
+        "chap_number" : chap_number,
+        "InnerNo" : 1
     }
 
     return render(request, "chap_sentence.html", context)
@@ -254,9 +260,24 @@ def chap_sentence_Con(request):
             threshold = cosine_similarity(tfidf_mat[0:1], tfidf_mat[1:2])
 
             if threshold > 0.3:
+                print(threshold)
                 print("맞았습니다.")
+                check_index = ConversationPracticeAnswerDB.objects.filter(Cosentence_answer=origintext)
+                check_index = check_index.values()[0]["SentenceNo"]
+                check_list[check_index - 1] = True
+                print(check_list)
+
+                if all(check_list) == True:
+                    print("수료하셨습니다.")
+                else:
+                    print("수료하지 못했습니다.")
+                    print(check_list)
+
             else:
+                print(threshold)
                 print("틀렸습니다. 다시 시도해주세요!")
+                print("수료하지 못했습니다.")
+                print(check_list)
 
         else:
             sendtext = False
@@ -265,7 +286,10 @@ def chap_sentence_Con(request):
         "question" : question,
         "question_trans" : question_trans,
         "answer" : answer,
-        "answer_trans" : answer_trans
+        "answer_trans" : answer_trans,
+        "is_complete" : all(check_list),
+        "chap_number" : chap_number,
+        "InnerNo" : 2
     }
 
     return render(request, "chap_sentence2.html", context)
@@ -273,7 +297,10 @@ def chap_sentence_Con(request):
 
     
 def LV1clear(request):
-    return render(request, "LV1clear.html")
+    context = {
+        "chap_number" : chap_number
+    }
+    return render(request, "LV1clear.html", context)
 
 
 def translate(sentence, target_lang):
