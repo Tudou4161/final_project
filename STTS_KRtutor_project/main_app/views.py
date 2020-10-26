@@ -14,7 +14,6 @@ import sys
 import urllib.request
 import copy
 
-
 # Create your views here.
 def main(request):  # 로그인 구현 함수
     context = {}
