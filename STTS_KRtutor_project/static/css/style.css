@@ -230,3 +230,25 @@ body{
     background:url(https://img.icons8.com/metro/26/000000/close-window.png);
     text-indent: -9999px;
 }
+
+/* chap_sentence.html */
+
+#speech,
+#stop, 
+#text_to_speech{
+    background-color: #f5f5f5;
+    border: none; 
+    outline: none;
+}
+
+.sentencebox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.SEQSET{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

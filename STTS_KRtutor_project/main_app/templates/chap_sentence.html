@@ -79,28 +79,28 @@
             <div class="check_list">
             {% for check in check_list%}
                 {% if check == False %}
-                    <img src="{% static "img/non-check-mark-303498_30.png" %}">
+                    <img src="{% static 'img/non-check-mark-303498_30.png' %}">
                 {% else %}
-                    <img src="{% static "img/check-mark-303498_30.png" %}">
+                    <img src="{% static 'img/check-mark-303498_30.png' %}">
                 {% endif %}
             {% endfor %}
             </div>
         <div class="chapterbox">
-            <button id="speech" onclick="speech_to_text()">Start STT</button>
-            <button id="stop" onclick="stop()">Stop</button>
-
             <p id="message">버튼을 누르고 아무말이나 하세요.</p>
 
-            <button id="text_to_speech" onclick="TTS()">TTS</button>
-
             <br />
-            {% for sentence in sentences %}
-                <div id="SEQ">{{ sentence.Essentence_question }}</div>
-            {% endfor %}
+            <div class="sentencebox">
+                <div class="SEQSET">
+                    {% for sentence in sentences %}
+                        <div id="SEQ">{{ sentence.Essentence_question }}</div>
+                    {% endfor %}
+                    {% for stc_trans in sentences_trans %}
+                        <div id="SET">{{ stc_trans }}</div>
+                    {% endfor %}
+                </div>
+                <button id="text_to_speech" onclick="TTS()"><img src="{% static 'img/TTS.PNG' %}"></button>
+            </div>
             
-            {% for stc_trans in sentences_trans %}
-                <div id="SET">{{ stc_trans }}</div>
-            {% endfor %}
 
             <form method="POST">
                 {% csrf_token %}
@@ -110,6 +110,9 @@
                     <button name="sendtext" id="sendtext" style="display: none;"></button>
                 </div>
             </form>
+
+            <button id="speech" onclick="speech_to_text()"><img src="{% static 'img/STT.PNG' %}"></button>
+            <button id="stop" onclick="stop()"><img src="{% static 'img/STOP.PNG' %}"></button>
 
             <script type="text/javascript">
 

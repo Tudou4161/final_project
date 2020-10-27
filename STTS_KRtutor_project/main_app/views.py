@@ -50,8 +50,6 @@ def sign_up(request):  # 회원가입 구현함수
         if (request.POST["userid"] and request.POST["password"] and
                 request.POST["password"] == request.POST["password_check"]):
 
-            user_id = request.POST["userid"]
-
             new_user = User.objects.create_user(
                 username=user_id,
                 password=request.POST["password"]
@@ -84,9 +82,6 @@ def logout(request):
 
 
 def chapter(request):
-    global username
-
-    username = request.POST["userid"]
 
     chap_no = ChapterNumberDB.objects.all()
 
@@ -105,7 +100,6 @@ def chapter(request):
         kr_trans_list.append([no, chapName_kr, trans_stc])
 
     context = {
-        'username': username,
         'chap_number': chap_no,
         'kr_trans_list': kr_trans_list
     }
@@ -215,7 +209,7 @@ def chap_sentence_ES(request, cn_ChapNo):
     return render(request, "chap_sentence.html", context)
 
 
-def chap_sentence_Con(request):
+def chap_sentence_Con(request, cn_ChapNo):
     question_list = ConversationPracticeQuestionDB.objects.filter(ChapNo=chap_number, InnerNo=2)
     answer_list = ConversationPracticeAnswerDB.objects.filter(ChapNo=chap_number, InnerNo=2)
 
@@ -284,13 +278,13 @@ def chap_sentence_Con(request):
                     print("수료하셨습니다.")
                 else:
                     print("수료하지 못했습니다.")
-                    print(check_list)
+                    # print(check_list)
 
             else:
                 print(threshold)
                 print("틀렸습니다. 다시 시도해주세요!")
                 print("수료하지 못했습니다.")
-                print(check_list)
+                # print(check_list)
 
         else:
             sendtext = False

@@ -79,40 +79,43 @@
             <div class="check_list">
             {% for check in check_list%}
                 {% if check == False %}
-                    <img src="{% static "img/non-check-mark-303498_30.png" %}">
+                    <img src="{% static 'img/non-check-mark-303498_30.png' %}">
                 {% else %}
-                    <img src="{% static "img/check-mark-303498_30.png" %}">
+                    <img src="{% static 'img/check-mark-303498_30.png' %}">
                 {% endif %}
             {% endfor %}
             </div>
         <div class="chapterbox">
-            <button id="speech" onclick="speech_to_text()">Start STT</button>
-            <button id="stop" onclick="stop()">Stop</button>
-
             <p id="message">버튼을 누르고 아무말이나 하세요.</p>
+
             <br />
-            {% for question in question %}
-                <div id="SEQ">{{ question.Cosentence_question }}</div>
-            {% endfor %}
+            <div class="sentencebox">
+                <div class="SEQSET">
+                    {% for question in question %}
+                        <div id="SEQ">{{ question.Cosentence_question }}</div>
+                    {% endfor %}
+                    {% for question_stc_trans in question_trans %}
+                        <div id="SET">{{ question_stc_trans }}</div>
+                    {% endfor %}
+                </div>
+                
+                <button id="text_to_speech" onclick="TTS1()"><img src="{% static 'img/TTS.PNG' %}"></button>
+            </div>
 
-            {% for question_stc_trans in question_trans %}
-                <div id="SET">{{ question_stc_trans }}</div>
-            {% endfor %}
+            <div class="sentencebox">
+                <div class="SEQSET">
+                    {% for answer in answer %}
+                        <div id="SEA">{{ answer.Cosentence_answer }}</div>
+                    {% endfor %}
+                    {% for answer_stc_trans in answer_trans %}
+                        <div id="SET">{{ answer_stc_trans }}</div>
+                    {% endfor %}
+                </div>
 
-            <button id="text_to_speech" onclick="TTS1()">TTS</button>
-
-            {% for answer in answer %}
-                <div id="SEA">{{ answer.Cosentence_answer }}</div>
-            {% endfor %}
-
-            {% for answer_stc_trans in answer_trans %}
-                <div id="SET">{{ answer_stc_trans }}</div>
-            {% endfor %}
-
-            <button id="text_to_speech" onclick="TTS2()">TTS</button>
-
-            <br>
-            
+                <button id="text_to_speech" onclick="TTS2()"><img src="{% static 'img/TTS.PNG' %}"></button>
+            </div>
+        
+           
             <form method="POST">
                 {% csrf_token %}
                 <div class="textWrapper">
@@ -121,6 +124,9 @@
                     <button name="sendtext" id="sendtext" style="display: none;"></button>
                 </div>
             </form>
+            
+            <button id="speech" onclick="speech_to_text()"><img src="{% static 'img/STT.PNG' %}"></button>
+            <button id="stop" onclick="stop()"><img src="{% static 'img/STOP.PNG' %}"></button>
 
             <script type="text/javascript">
 
@@ -242,6 +248,7 @@
                     text_to_speech(basic_sentence);
                 }
             </script>
+            </br>
             {%if answer.has_previous %}
             <button id="Previous" onclick = "location.href = '?page={{ answer.previous_page_number }}' ">Previous</button>
             {% endif %}
